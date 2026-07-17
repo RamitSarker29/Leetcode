@@ -1,51 +1,155 @@
-<h2><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array">26. Remove Duplicates from Sorted Array</a></h2><h3>Easy</h3><hr><p>Given an integer array <code>nums</code> sorted in <strong>non-decreasing order</strong>, remove the duplicates <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank"><strong>in-place</strong></a> such that each unique element appears only <strong>once</strong>. The <strong>relative order</strong> of the elements should be kept the <strong>same</strong>.</p>
+# LeetCode 26 - Remove Duplicates from Sorted Array
 
-<p>Consider the number of <em>unique elements</em> in&nbsp;<code>nums</code> to be <code>k<strong>​​​​​​​</strong></code>​​​​​​​. <meta charset="UTF-8" />After removing duplicates, return the number of unique elements&nbsp;<code>k</code>.</p>
+## Problem
 
-<p><meta charset="UTF-8" />The first&nbsp;<code>k</code>&nbsp;elements of&nbsp;<code>nums</code>&nbsp;should contain the unique numbers in <strong>sorted order</strong>. The remaining elements beyond index&nbsp;<code>k - 1</code>&nbsp;can be ignored.</p>
+Given a sorted integer array `nums`, remove the duplicates **in-place** such that each unique element appears only once.
 
-<p><strong>Custom Judge:</strong></p>
+The relative order of the elements must remain the same.
 
-<p>The judge will test your solution with the following code:</p>
+Return the number of unique elements (`k`). The first `k` elements of `nums` should contain all the unique elements in sorted order.
 
-<pre>
-int[] nums = [...]; // Input array
-int[] expectedNums = [...]; // The expected answer with correct length
+---
 
-int k = removeDuplicates(nums); // Calls your implementation
+## Examples
 
-assert k == expectedNums.length;
-for (int i = 0; i &lt; k; i++) {
-    assert nums[i] == expectedNums[i];
-}
-</pre>
+### Example 1
 
-<p>If all assertions pass, then your solution will be <strong>accepted</strong>.</p>
+**Input**
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+```text
+nums = [1,1,2]
+```
 
-<pre>
-<strong>Input:</strong> nums = [1,1,2]
-<strong>Output:</strong> 2, nums = [1,2,_]
-<strong>Explanation:</strong> Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-</pre>
+**Output**
 
-<p><strong class="example">Example 2:</strong></p>
+```text
+2
+nums = [1,2,_]
+```
 
-<pre>
-<strong>Input:</strong> nums = [0,0,1,1,1,2,2,3,3,4]
-<strong>Output:</strong> 5, nums = [0,1,2,3,4,_,_,_,_,_]
-<strong>Explanation:</strong> Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-</pre>
+---
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+### Example 2
 
-<ul>
-	<li><code>1 &lt;= nums.length &lt;= 3 * 10<sup>4</sup></code></li>
-	<li><code>-100 &lt;= nums[i] &lt;= 100</code></li>
-	<li><code>nums</code> is sorted in <strong>non-decreasing</strong> order.</li>
-</ul>
+**Input**
+
+```text
+nums = [0,0,1,1,1,2,2,3,3,4]
+```
+
+**Output**
+
+```text
+5
+nums = [0,1,2,3,4,_,_,_,_,_]
+```
+
+---
+
+## Approach
+
+- Since the array is already sorted, duplicate elements always appear next to each other.
+- Use two pointers:
+  - `i` traverses the array.
+  - `pos` keeps track of the position where the next unique element should be placed.
+- Compare each element with its previous element.
+- If they are different, it is a new unique element.
+- Store it at index `pos` and increment `pos`.
+- Finally, return `pos`, which represents the number of unique elements.
+
+---
+
+## Code
+
+```python
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        else:
+            pos = 1
+            for i in range(1, len(nums)):
+                if nums[i] != nums[i - 1]:
+                    nums[pos] = nums[i]
+                    pos += 1
+            return pos
+```
+
+---
+
+## Explanation
+
+Initially, the first element is always unique, so `pos` starts at `1`.
+
+The pointer `i` scans the array from left to right.
+
+Whenever `nums[i]` is different from `nums[i - 1]`, a new unique element is found.
+
+That element is copied to index `pos`, and `pos` is incremented.
+
+After the traversal, the first `pos` elements of the array contain all unique elements in sorted order.
+
+---
+
+## Dry Run
+
+**Input**
+
+```text
+nums = [1,1,2,2,3]
+```
+
+| i | nums[i] | nums[i-1] | Action | pos | Array |
+|---|---------|-----------|--------|-----|-------|
+|1|1|1|Duplicate, skip|1|[1,1,2,2,3]|
+|2|2|1|Copy to index 1|2|[1,2,2,2,3]|
+|3|2|2|Duplicate, skip|2|[1,2,2,2,3]|
+|4|3|2|Copy to index 2|3|[1,2,3,2,3]|
+
+Final Result:
+
+```text
+k = 3
+nums = [1,2,3,2,3]
+```
+
+Only the first **3** elements are considered:
+
+```text
+[1,2,3]
+```
+
+---
+
+## Time Complexity
+
+```text
+O(n)
+```
+
+The array is traversed only once.
+
+---
+
+## Space Complexity
+
+```text
+O(1)
+```
+
+No extra data structure is used. The array is modified in-place.
+
+---
+
+## Concepts Used
+
+- Two Pointers
+- In-Place Array Modification
+- Array Traversal
+- Sorted Arrays
+
+---
+
+## Author
+
+**Ramit Sarker**
