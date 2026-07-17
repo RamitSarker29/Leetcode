@@ -1,22 +1,140 @@
-<h2><a href="https://leetcode.com/problems/move-zeroes">283. Move Zeroes</a></h2><h3>Easy</h3><hr><p>Given an integer array <code>nums</code>, move all <code>0</code>&#39;s to the end of it while maintaining the relative order of the non-zero elements.</p>
+# LeetCode 283 - Move Zeroes
 
-<p><strong>Note</strong> that you must do this in-place without making a copy of the array.</p>
+## Problem
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> nums = [0,1,0,3,12]
-<strong>Output:</strong> [1,3,12,0,0]
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> nums = [0]
-<strong>Output:</strong> [0]
-</pre>
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+Given an integer array `nums`, move all `0`s to the end while maintaining the relative order of the non-zero elements.
 
-<ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>-2<sup>31</sup> &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li>
-</ul>
+**Constraints:**
 
-<p>&nbsp;</p>
-<strong>Follow up:</strong> Could you minimize the total number of operations done?
+* Modify the array **in-place**.
+* Do not create a copy of the array.
+
+---
+
+## Examples
+
+### Example 1
+
+**Input**
+
+```text
+nums = [0,1,0,3,12]
+```
+
+**Output**
+
+```text
+[1,3,12,0,0]
+```
+
+---
+
+### Example 2
+
+**Input**
+
+```text
+nums = [0]
+```
+
+**Output**
+
+```text
+[0]
+```
+
+---
+
+## Approach
+
+* Use two pointers:
+
+  * `i` points to the position where the next non-zero element should be placed.
+  * `j` traverses the array.
+* Whenever a non-zero element is found at `j`, swap it with the element at `i`.
+* Increment `i` after placing a non-zero element.
+* By the end of the traversal, all non-zero elements are moved to the front while the zeros automatically shift to the end.
+
+---
+
+## Code
+
+```python
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        i = 0
+
+        for j in range(len(nums)):
+            if nums[j] != 0:
+                nums[j], nums[i] = nums[i], nums[j]
+                i += 1
+```
+
+---
+
+## Explanation
+
+Initially, both pointers start at the beginning of the array.
+
+* `j` scans every element.
+* If `nums[j]` is non-zero, it is swapped with the element at index `i`.
+* After the swap, `i` moves forward to the next available position.
+* If `nums[j]` is zero, only `j` moves forward.
+* This preserves the order of non-zero elements while moving all zeros to the end.
+
+### Dry Run
+
+**Input**
+
+```text
+[0,1,0,3,12]
+```
+
+| j | nums[j] |  i | Array        |
+| - | ------: | -: | ------------ |
+| 0 |       0 |  0 | [0,1,0,3,12] |
+| 1 |       1 |  0 | [1,0,0,3,12] |
+| 2 |       0 |  1 | [1,0,0,3,12] |
+| 3 |       3 |  1 | [1,3,0,0,12] |
+| 4 |      12 |  2 | [1,3,12,0,0] |
+
+Final Answer:
+
+```text
+[1,3,12,0,0]
+```
+
+---
+
+## Time Complexity
+
+```text
+O(n)
+```
+
+The array is traversed only once.
+
+---
+
+## Space Complexity
+
+```text
+O(1)
+```
+
+The array is modified in-place without using any extra space.
+
+---
+
+## Concepts Used
+
+* Two Pointers
+* In-Place Array Manipulation
+* Swapping
+* Array Traversal
+
+---
+
+## Author
+
+**Ramit Sarker**
