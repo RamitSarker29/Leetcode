@@ -6,6 +6,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 ## Array
 |  |
 | ------- |
+| [0001-two-sum](https://github.com/RamitSarker29/Leetcode/tree/master/0001-two-sum) |
 | [0283-move-zeroes](https://github.com/RamitSarker29/Leetcode/tree/master/0283-move-zeroes) |
 ## Two Pointers
 |  |
@@ -16,4 +17,8 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 |  |
 | ------- |
 | [0557-reverse-words-in-a-string-iii](https://github.com/RamitSarker29/Leetcode/tree/master/0557-reverse-words-in-a-string-iii) |
+## Hash Table
+|  |
+| ------- |
+| [0001-two-sum](https://github.com/RamitSarker29/Leetcode/tree/master/0001-two-sum) |
 <!---LeetCode Topics End-->
