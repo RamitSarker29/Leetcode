@@ -1,58 +1,159 @@
-<h2><a href="https://leetcode.com/problems/remove-element">27. Remove Element</a></h2><h3>Easy</h3><hr><p>Given an integer array <code>nums</code> and an integer <code>val</code>, remove all occurrences of <code>val</code> in <code>nums</code> <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank"><strong>in-place</strong></a>. The order of the elements may be changed. Then return <em>the number of elements in </em><code>nums</code><em> which are not equal to </em><code>val</code>.</p>
+# LeetCode 27 - Remove Element
 
-<p>Consider the number of elements in <code>nums</code> which are not equal to <code>val</code> be <code>k</code>, to get accepted, you need to do the following things:</p>
+## Problem
 
-<ul>
-	<li>Change the array <code>nums</code> such that the first <code>k</code> elements of <code>nums</code> contain the elements which are not equal to <code>val</code>. The remaining elements of <code>nums</code> are not important as well as the size of <code>nums</code>.</li>
-	<li>Return <code>k</code>.</li>
-</ul>
+Given an integer array `nums` and an integer `val`, remove all occurrences of `val` **in-place**.
 
-<p><strong>Custom Judge:</strong></p>
+Return the number of elements that are **not equal** to `val`.
 
-<p>The judge will test your solution with the following code:</p>
+The first `k` elements of `nums` should contain all the elements that are not equal to `val`. The remaining elements can be ignored.
 
-<pre>
-int[] nums = [...]; // Input array
-int val = ...; // Value to remove
-int[] expectedNums = [...]; // The expected answer with correct length.
-                            // It is sorted with no values equaling val.
+---
 
-int k = removeElement(nums, val); // Calls your implementation
+## Examples
 
-assert k == expectedNums.length;
-sort(nums, 0, k); // Sort the first k elements of nums
-for (int i = 0; i &lt; actualLength; i++) {
-    assert nums[i] == expectedNums[i];
-}
-</pre>
+### Example 1
 
-<p>If all assertions pass, then your solution will be <strong>accepted</strong>.</p>
+**Input**
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+```text
+nums = [3,2,2,3]
+val = 3
+```
 
-<pre>
-<strong>Input:</strong> nums = [3,2,2,3], val = 3
-<strong>Output:</strong> 2, nums = [2,2,_,_]
-<strong>Explanation:</strong> Your function should return k = 2, with the first two elements of nums being 2.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-</pre>
+**Output**
 
-<p><strong class="example">Example 2:</strong></p>
+```text
+2
+nums = [2,2,_,_]
+```
 
-<pre>
-<strong>Input:</strong> nums = [0,1,2,2,3,0,4,2], val = 2
-<strong>Output:</strong> 5, nums = [0,1,4,0,3,_,_,_]
-<strong>Explanation:</strong> Your function should return k = 5, with the first five elements of nums containing 0, 0, 1, 3, and 4.
-Note that the five elements can be returned in any order.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-</pre>
+---
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+### Example 2
 
-<ul>
-	<li><code>0 &lt;= nums.length &lt;= 100</code></li>
-	<li><code>0 &lt;= nums[i] &lt;= 50</code></li>
-	<li><code>0 &lt;= val &lt;= 100</code></li>
-</ul>
+**Input**
+
+```text
+nums = [0,1,2,2,3,0,4,2]
+val = 2
+```
+
+**Output**
+
+```text
+5
+nums = [0,1,4,0,3,_,_,_]
+```
+
+---
+
+## Approach
+
+- Use two pointers:
+  - `i` traverses every element in the array.
+  - `index` keeps track of where the next valid element should be placed.
+- If the current element is **not equal** to `val`, copy it to `nums[index]`.
+- Increment `index` after placing a valid element.
+- Continue until the entire array is traversed.
+- Return `index`, which represents the number of remaining elements.
+
+---
+
+## Code
+
+```python
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        index = 0
+
+        for i in range(len(nums)):
+            if nums[i] != val:
+                nums[index] = nums[i]
+                index += 1
+
+        return index
+```
+
+---
+
+## Explanation
+
+The pointer `i` reads every element in the array.
+
+Whenever an element is **not equal** to `val`, it is copied to the position indicated by `index`.
+
+After copying, `index` is incremented to point to the next available position.
+
+By the end of the traversal:
+
+- The first `index` elements contain all valid elements.
+- The remaining elements are ignored.
+- Returning `index` gives the number of elements remaining after removing `val`.
+
+---
+
+## Dry Run
+
+**Input**
+
+```text
+nums = [3,2,2,3]
+val = 3
+```
+
+| i | nums[i] | Action | index | Array |
+|---|---------|--------|------:|-------|
+|0|3|Skip|0|[3,2,2,3]|
+|1|2|Copy to index 0|1|[2,2,2,3]|
+|2|2|Copy to index 1|2|[2,2,2,3]|
+|3|3|Skip|2|[2,2,2,3]|
+
+Final Result:
+
+```text
+k = 2
+nums = [2,2,2,3]
+```
+
+Only the first **2** elements are considered:
+
+```text
+[2,2]
+```
+
+The remaining elements can contain any values.
+
+---
+
+## Time Complexity
+
+```text
+O(n)
+```
+
+The array is traversed exactly once.
+
+---
+
+## Space Complexity
+
+```text
+O(1)
+```
+
+The array is modified in-place without using extra space.
+
+---
+
+## Concepts Used
+
+- Two Pointers
+- In-Place Array Modification
+- Array Traversal
+
+---
+
+## Author
+
+**Ramit Sarker**
