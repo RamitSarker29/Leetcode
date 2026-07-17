@@ -1,43 +1,180 @@
-<h2><a href="https://leetcode.com/problems/plus-one">66. Plus One</a></h2><h3>Easy</h3><hr><p>You are given a <strong>large integer</strong> represented as an integer array <code>digits</code>, where each <code>digits[i]</code> is the <code>i<sup>th</sup></code> digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading <code>0</code>&#39;s.</p>
+# LeetCode 66 - Plus One
 
-<p>Increment the large integer by one and return <em>the resulting array of digits</em>.</p>
+## Problem
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+You are given a large integer represented as an array of digits, where each element is a single digit of the number.
 
-<pre>
-<strong>Input:</strong> digits = [1,2,3]
-<strong>Output:</strong> [1,2,4]
-<strong>Explanation:</strong> The array represents the integer 123.
-Incrementing by one gives 123 + 1 = 124.
-Thus, the result should be [1,2,4].
-</pre>
+Increment the integer by **one** and return the resulting array of digits.
 
-<p><strong class="example">Example 2:</strong></p>
+---
 
-<pre>
-<strong>Input:</strong> digits = [4,3,2,1]
-<strong>Output:</strong> [4,3,2,2]
-<strong>Explanation:</strong> The array represents the integer 4321.
-Incrementing by one gives 4321 + 1 = 4322.
-Thus, the result should be [4,3,2,2].
-</pre>
+## Examples
 
-<p><strong class="example">Example 3:</strong></p>
+### Example 1
 
-<pre>
-<strong>Input:</strong> digits = [9]
-<strong>Output:</strong> [1,0]
-<strong>Explanation:</strong> The array represents the integer 9.
-Incrementing by one gives 9 + 1 = 10.
-Thus, the result should be [1,0].
-</pre>
+**Input**
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+```text
+digits = [1,2,3]
+```
 
-<ul>
-	<li><code>1 &lt;= digits.length &lt;= 100</code></li>
-	<li><code>0 &lt;= digits[i] &lt;= 9</code></li>
-	<li><code>digits</code> does not contain any leading <code>0</code>&#39;s.</li>
-</ul>
+**Output**
+
+```text
+[1,2,4]
+```
+
+---
+
+### Example 2
+
+**Input**
+
+```text
+digits = [4,3,2,1]
+```
+
+**Output**
+
+```text
+[4,3,2,2]
+```
+
+---
+
+### Example 3
+
+**Input**
+
+```text
+digits = [9]
+```
+
+**Output**
+
+```text
+[1,0]
+```
+
+---
+
+## Approach
+
+- Traverse the array from **right to left**.
+- If the current digit is **less than 9**, simply increment it by `1` and return the array.
+- If the current digit is `9`, change it to `0` and continue moving left because of the carry.
+- If every digit was `9`, all digits become `0`. In that case, prepend `1` to the array and return it.
+
+---
+
+## Code
+
+```python
+class Solution:
+    def plusOne(self, digits: List[int]) -> List[int]:
+        for i in range(len(digits) - 1, -1, -1):
+            if digits[i] == 9:
+                digits[i] = 0
+            else:
+                digits[i] += 1
+                return digits
+        return [1] + digits
+```
+
+---
+
+## Explanation
+
+The addition starts from the last digit, just like manual addition.
+
+- If a digit is not `9`, adding `1` does not produce a carry, so the answer is complete.
+- If a digit is `9`, it becomes `0` and the carry moves to the previous digit.
+- The process continues until a digit less than `9` is found.
+- If all digits are `9`, a new leading digit `1` is added.
+
+---
+
+## Dry Run
+
+**Input**
+
+```text
+digits = [1,9,9]
+```
+
+| i | Current Digit | Action | Array |
+|---|--------------:|--------|-------|
+|2|9|Set to 0|[1,9,0]|
+|1|9|Set to 0|[1,0,0]|
+|0|1|Increment and Return|[2,0,0]|
+
+**Final Output**
+
+```text
+[2,0,0]
+```
+
+---
+
+### Special Case
+
+**Input**
+
+```text
+digits = [9,9,9]
+```
+
+After processing all digits:
+
+```text
+[0,0,0]
+```
+
+Since all digits were `9`, prepend `1`:
+
+```text
+[1,0,0,0]
+```
+
+---
+
+## Time Complexity
+
+```text
+O(n)
+```
+
+The array is traversed at most once.
+
+---
+
+## Space Complexity
+
+```text
+O(1)
+```
+
+The solution modifies the array in-place and uses constant extra space.
+
+---
+
+## Concepts Used
+
+- Array Traversal
+- Carry Propagation
+- In-Place Modification
+- Simulation
+
+---
+
+## Python Features Used
+
+- Reverse iteration using `range(start, stop, step)`
+- List concatenation (`[1] + digits`)
+- Early `return`
+
+---
+
+## Author
+
+**Ramit Sarker**
