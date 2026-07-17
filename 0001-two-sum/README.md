@@ -1,5 +1,3 @@
-Here's a clean, professional README you can use for your GitHub LeetCode repository.
-
 # LeetCode 1 - Two Sum
 
 ## Problem
