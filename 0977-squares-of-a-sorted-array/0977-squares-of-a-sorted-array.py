@@ -10,10 +10,8 @@ class Solution:
                 pos.append(i)
         for i in range(len(neg)):
             neg[i]=neg[i]*neg[i]
-            i+=1
         for i in range(len(pos)):
             pos[i]=pos[i]*pos[i]
-            i+=1
         neg=neg[::-1]
         i=0
         j=0
