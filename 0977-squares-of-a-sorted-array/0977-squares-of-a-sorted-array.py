@@ -14,5 +14,4 @@ class Solution:
                 r-=1
             k-=1
         return res
-
         
