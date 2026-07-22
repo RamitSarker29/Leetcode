@@ -1,13 +1,8 @@
 class Solution:
     def limitOccurrences(self, nums: list[int], k: int) -> list[int]:
-        res=[]
-        for i in range(len(nums)):
-            if nums[i] not in res:
-                res.append(nums[i])
-            else:
-                if res.count(nums[i])==k:
-                    i+=1
-                else:
-                    res.append(nums[i])
-        return res
-        
+        i=0
+        for n in nums:
+            if(i<k or n!=nums[i-k]):
+                nums[i]=n
+                i+=1
+        return nums[:i]
