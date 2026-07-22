@@ -6,7 +6,7 @@ class Solution:
                 res.append(nums[i])
             else:
                 if res.count(nums[i])==k:
-                    continue
+                    i+=1
                 else:
                     res.append(nums[i])
         return res
