@@ -28,10 +28,12 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0283-move-zeroes](https://github.com/RamitSarker29/Leetcode/tree/master/0283-move-zeroes) |
 | [0557-reverse-words-in-a-string-iii](https://github.com/RamitSarker29/Leetcode/tree/master/0557-reverse-words-in-a-string-iii) |
 | [0977-squares-of-a-sorted-array](https://github.com/RamitSarker29/Leetcode/tree/master/0977-squares-of-a-sorted-array) |
+| [3884-first-matching-character-from-both-ends](https://github.com/RamitSarker29/Leetcode/tree/master/3884-first-matching-character-from-both-ends) |
 ## String
 |  |
 | ------- |
 | [0557-reverse-words-in-a-string-iii](https://github.com/RamitSarker29/Leetcode/tree/master/0557-reverse-words-in-a-string-iii) |
+| [3884-first-matching-character-from-both-ends](https://github.com/RamitSarker29/Leetcode/tree/master/3884-first-matching-character-from-both-ends) |
 ## Hash Table
 |  |
 | ------- |
