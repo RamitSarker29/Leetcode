@@ -1,56 +1,251 @@
-<h2><a href="https://leetcode.com/problems/limit-occurrences-in-sorted-array">4312. Limit Occurrences in Sorted Array</a></h2><h3>Easy</h3><hr><p>You are given a <strong>sorted</strong> integer array <code>nums</code> and an integer <code>k</code>.</p>
+# LeetCode 4312 - Limit Occurrences in Sorted Array
 
-<p>Return an array such that each <strong>distinct</strong> element appears <strong>at most</strong> <code>k</code> times, while preserving the relative order of the elements in <code>nums</code>.</p>
+## Problem
 
-<p>Note: If a distinct element appears <strong>at least</strong> <code>k</code> times, then it must appear <strong>exactly</strong> <code>k</code> times in the resulting array.</p>
+Given a **sorted** integer array `nums` and an integer `k`, return an array such that each distinct element appears **at most `k` times**, while preserving the original order.
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+---
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,1,1,2,2,3], k = 2</span></p>
+## Examples
 
-<p><strong>Output:</strong> <span class="example-io">[1,1,2,2,3]</span></p>
+### Example 1
 
-<p><strong>Explanation:</strong></p>
+**Input:**
 
-<p>Each element can appear at most 2 times.</p>
+```text
+nums = [1,1,1,2,2,3]
+k = 2
+```
 
-<ul>
-	<li>The element 1 appears 3 times, so only 2 occurrences are kept.</li>
-	<li>The element 2 appears 2 times, so both occurrences are kept.</li>
-	<li>The element 3 appears 1 time, so it is kept.</li>
-</ul>
+**Output:**
 
-<p>Thus, the resulting array is <code>[1, 1, 2, 2, 3]</code>.</p>
-</div>
+```text
+[1,1,2,2,3]
+```
 
-<p><strong class="example">Example 2:</strong></p>
+---
 
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3], k = 1</span></p>
+### Example 2
 
-<p><strong>Output:</strong> <span class="example-io">[1,2,3]</span></p>
+**Input:**
 
-<p><strong>Explanation:</strong></p>
+```text
+nums = [1,2,3]
+k = 1
+```
 
-<p>All elements are distinct and already appear at most once, so the array remains unchanged.</p>
-</div>
+**Output:**
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+```text
+[1,2,3]
+```
 
-<ul>
-	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 100</code></li>
-	<li><code>nums</code> is sorted in non-decreasing order.</li>
-	<li><code>1 &lt;= k &lt;= nums.length</code></li>
-</ul>
+---
 
-<p>&nbsp;</p>
-<p><strong>Follow-up:</strong></p>
+## Approach
 
-<ul>
-	<li>Can you solve this in-place using O(1) extra space?</li>
-	<li>Note that the space used for returning or resizing the result does not count toward the space complexity mentioned above, as some languages do not support in-place resizing.</li>
-</ul>
+Since the array is already **sorted**, all duplicate elements are adjacent.
+
+We use a **write pointer (`i`)** to track where the next valid element should be placed.
+
+### Logic
+
+- The first `k` elements are always valid.
+- After that, compare the current element with the element `k` positions behind the write pointer.
+- If they are different, it means we have not yet kept `k` copies of the current element, so we keep it.
+- Otherwise, skip it.
+
+This allows us to modify the array **in-place** using only **O(1)** extra space.
+
+---
+
+## Code
+
+```python
+class Solution:
+    def limitOccurrences(self, nums: list[int], k: int) -> list[int]:
+        i = 0
+
+        for n in nums:
+            if i < k or n != nums[i - k]:
+                nums[i] = n
+                i += 1
+
+        return nums[:i]
+```
+
+---
+
+## Explanation
+
+Suppose:
+
+```text
+nums = [1,1,1,2,2,3]
+k = 2
+```
+
+### Initial State
+
+```text
+i = 0
+```
+
+---
+
+### Read first `1`
+
+```text
+i < k
+
+0 < 2 ✔
+```
+
+Keep it.
+
+```text
+[1]
+```
+
+---
+
+### Read second `1`
+
+```text
+1 < 2 ✔
+```
+
+Keep it.
+
+```text
+[1,1]
+```
+
+---
+
+### Read third `1`
+
+Now
+
+```text
+i = 2
+```
+
+Check
+
+```text
+n != nums[i-k]
+
+1 != nums[0]
+
+1 != 1 ✖
+```
+
+Skip it.
+
+---
+
+### Read first `2`
+
+```text
+2 != nums[0]
+
+2 != 1 ✔
+```
+
+Keep it.
+
+```text
+[1,1,2]
+```
+
+---
+
+### Read second `2`
+
+```text
+2 != nums[1]
+
+2 != 1 ✔
+```
+
+Keep it.
+
+```text
+[1,1,2,2]
+```
+
+---
+
+### Read `3`
+
+```text
+3 != nums[2]
+
+3 != 2 ✔
+```
+
+Keep it.
+
+```text
+[1,1,2,2,3]
+```
+
+---
+
+## Dry Run
+
+| Current Number | i | Condition | Action | Result |
+|---------------|---|-----------|--------|--------|
+|1|0|0 < 2|Keep|[1]|
+|1|1|1 < 2|Keep|[1,1]|
+|1|2|1 == nums[0]|Skip|[1,1]|
+|2|2|2 != nums[0]|Keep|[1,1,2]|
+|2|3|2 != nums[1]|Keep|[1,1,2,2]|
+|3|4|3 != nums[2]|Keep|[1,1,2,2,3]|
+
+---
+
+## Time Complexity
+
+- **O(n)**
+
+Each element is visited exactly once.
+
+---
+
+## Space Complexity
+
+- **O(1)**
+
+The array is modified in-place.
+
+---
+
+## Concepts Used
+
+- Two Pointers
+- In-place Array Modification
+- Sorted Array
+- Write Pointer Technique
+
+---
+
+## Python Features Used
+
+- `for n in nums`
+- List Slicing (`nums[:i]`)
+- In-place List Assignment
+
+---
+
+## Key Takeaways
+
+- A **write pointer** can be used to modify an array without extra space.
+- Since the array is **sorted**, duplicates are always consecutive.
+- Comparing with `nums[i-k]` tells us whether we've already kept `k` copies of the current element.
+- This technique is an extension of the approach used in **LeetCode 26 (Remove Duplicates from Sorted Array)**.
+
+---
+
+**Author:** Ramit Sarker
