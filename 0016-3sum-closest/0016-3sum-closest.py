@@ -6,14 +6,14 @@ class Solution:
             j=i+1
             k=len(nums)-1
             while (j<k):
-                sum=nums[i]+nums[j]+nums[k]
-                if abs(sum-target)<abs(closest_sum-target):
-                    closest_sum=sum
-                elif sum>target:
+                current_sum=nums[i]+nums[j]+nums[k]
+                if abs(current_sum-target)<abs(closest_sum-target):
+                    closest_sum=current_sum
+                elif current_sum>target:
                     k-=1
-                elif sum<target:
+                elif current_sum<target:
                     j+=1
                 else:
-                    return sum
+                    return current_sum
         return closest_sum
         
