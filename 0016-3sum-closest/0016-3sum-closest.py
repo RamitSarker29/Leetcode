@@ -9,7 +9,7 @@ class Solution:
                 current_sum=nums[i]+nums[j]+nums[k]
                 if abs(current_sum-target)<abs(closest_sum-target):
                     closest_sum=current_sum
-                elif current_sum>target:
+                if current_sum>target:
                     k-=1
                 elif current_sum<target:
                     j+=1
