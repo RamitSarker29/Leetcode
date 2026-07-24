@@ -344,4 +344,5 @@ s[i], s[j] = s[j], s[i]
 
 ---
 
-**Author:** Ramit Sarker
+**Author:**
+**Ramit Sarker**
