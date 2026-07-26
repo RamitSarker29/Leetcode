@@ -9,7 +9,4 @@ class Solution:
                 min_len=min(min_len,j-i+1)
                 window_sum-=nums[i]
                 i+=1
-        if min_len==float('inf'):
-            return 0
-        else:
-            return min_len
+        return 0 if min_len==float('inf') else min_len
