@@ -1,36 +1,324 @@
-<h2><a href="https://leetcode.com/problems/minimum-size-subarray-sum">209. Minimum Size Subarray Sum</a></h2><h3>Medium</h3><hr><p>Given an array of positive integers <code>nums</code> and a positive integer <code>target</code>, return <em>the <strong>minimal length</strong> of a </em><span data-keyword="subarray-nonempty"><em>subarray</em></span><em> whose sum is greater than or equal to</em> <code>target</code>. If there is no such subarray, return <code>0</code> instead.</p>
+# 209. Minimum Size Subarray Sum
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+## Problem
 
-<pre>
-<strong>Input:</strong> target = 7, nums = [2,3,1,2,4,3]
-<strong>Output:</strong> 2
-<strong>Explanation:</strong> The subarray [4,3] has the minimal length under the problem constraint.
-</pre>
+Given an array of positive integers `nums` and a positive integer `target`, return the **minimum length** of a contiguous subarray whose sum is **greater than or equal to** `target`.
 
-<p><strong class="example">Example 2:</strong></p>
+If there is no such subarray, return `0`.
 
-<pre>
-<strong>Input:</strong> target = 4, nums = [1,4,4]
-<strong>Output:</strong> 1
-</pre>
+### Example 1
 
-<p><strong class="example">Example 3:</strong></p>
+**Input**
 
-<pre>
-<strong>Input:</strong> target = 11, nums = [1,1,1,1,1,1,1,1]
-<strong>Output:</strong> 0
-</pre>
+```text
+target = 7
+nums = [2,3,1,2,4,3]
+```
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+**Output**
 
-<ul>
-	<li><code>1 &lt;= target &lt;= 10<sup>9</sup></code></li>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
-</ul>
+```text
+2
+```
 
-<p>&nbsp;</p>
-<strong>Follow up:</strong> If you have figured out the <code>O(n)</code> solution, try coding another solution of which the time complexity is <code>O(n log(n))</code>.
+### Example 2
+
+**Input**
+
+```text
+target = 4
+nums = [1,4,4]
+```
+
+**Output**
+
+```text
+1
+```
+
+### Example 3
+
+**Input**
+
+```text
+target = 11
+nums = [1,1,1,1,1,1,1,1]
+```
+
+**Output**
+
+```text
+0
+```
+
+---
+
+# Intuition
+
+Since every element in the array is **positive**, increasing the window always increases the sum, while shrinking the window always decreases it.
+
+We use a **Sliding Window** with two pointers:
+
+- Expand the window until its sum becomes at least `target`.
+- Once it becomes valid, shrink it as much as possible while maintaining the condition.
+- Keep track of the smallest valid window found.
+
+---
+
+# Approach
+
+1. Initialize:
+   - `i = 0` (left pointer)
+   - `window_sum = 0`
+   - `min_len = ∞`
+
+2. Traverse the array using `j` as the right pointer.
+
+3. Add `nums[j]` to the current window.
+
+4. While the window sum is greater than or equal to `target`:
+   - Update the minimum length.
+   - Remove the leftmost element from the window.
+   - Move the left pointer forward.
+
+5. If no valid window exists, return `0`; otherwise return `min_len`.
+
+---
+
+# Code
+
+```python
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        i = 0
+        min_len = float('inf')
+        window_sum = 0
+
+        for j in range(len(nums)):
+            window_sum += nums[j]
+
+            while window_sum >= target:
+                min_len = min(min_len, j - i + 1)
+                window_sum -= nums[i]
+                i += 1
+
+        return 0 if min_len == float('inf') else min_len
+```
+
+---
+
+# Explanation
+
+Consider:
+
+```text
+target = 7
+nums = [2,3,1,2,4,3]
+```
+
+### Step 1
+
+Expand the window.
+
+```text
+[2]
+Sum = 2
+```
+
+Not enough.
+
+---
+
+### Step 2
+
+Expand.
+
+```text
+[2,3]
+Sum = 5
+```
+
+Still less than `7`.
+
+---
+
+### Step 3
+
+Expand.
+
+```text
+[2,3,1]
+Sum = 6
+```
+
+Still less than `7`.
+
+---
+
+### Step 4
+
+Expand.
+
+```text
+[2,3,1,2]
+Sum = 8
+```
+
+Now the window satisfies the condition.
+
+Length = `4`
+
+Update answer.
+
+Now shrink the window.
+
+```text
+[3,1,2]
+Sum = 6
+```
+
+Stop shrinking.
+
+---
+
+### Step 5
+
+Expand.
+
+```text
+[3,1,2,4]
+Sum = 10
+```
+
+Valid window.
+
+Length = `4`
+
+Shrink.
+
+```text
+[1,2,4]
+Sum = 7
+Length = 3
+```
+
+Update answer.
+
+Shrink again.
+
+```text
+[2,4]
+Sum = 6
+```
+
+Stop.
+
+---
+
+### Step 6
+
+Expand.
+
+```text
+[2,4,3]
+Sum = 9
+```
+
+Valid.
+
+Length = `3`
+
+Shrink.
+
+```text
+[4,3]
+Sum = 7
+Length = 2
+```
+
+Update answer.
+
+Shrink again.
+
+```text
+[3]
+Sum = 3
+```
+
+Stop.
+
+Final answer:
+
+```text
+2
+```
+
+---
+
+# Dry Run
+
+| Left (`i`) | Right (`j`) | Window | Sum | Minimum Length |
+|------------|-------------|--------|-----|----------------|
+| 0 | 0 | [2] | 2 | ∞ |
+| 0 | 1 | [2,3] | 5 | ∞ |
+| 0 | 2 | [2,3,1] | 6 | ∞ |
+| 0 | 3 | [2,3,1,2] | 8 | 4 |
+| 1 | 3 | [3,1,2] | 6 | 4 |
+| 1 | 4 | [3,1,2,4] | 10 | 4 |
+| 2 | 4 | [1,2,4] | 7 | 3 |
+| 3 | 4 | [2,4] | 6 | 3 |
+| 3 | 5 | [2,4,3] | 9 | 3 |
+| 4 | 5 | [4,3] | 7 | **2** |
+| 5 | 5 | [3] | 3 | **2** |
+
+---
+
+# Time Complexity
+
+- Each element is added to the window once.
+- Each element is removed from the window once.
+
+**Time Complexity:** `O(n)`
+
+---
+
+# Space Complexity
+
+Only a few variables are used.
+
+**Space Complexity:** `O(1)`
+
+---
+
+# Concepts Used
+
+- Sliding Window
+- Two Pointers
+- Greedy
+- Array Traversal
+
+---
+
+# Python Features Used
+
+- `for` loop
+- `while` loop
+- `min()`
+- `float('inf')`
+- Ternary operator
+- List Indexing
+
+---
+
+# Key Takeaways
+
+- Sliding Window works because all elements are **positive**.
+- Expand the window until it becomes valid.
+- Shrink it as much as possible to get the minimum length.
+- Even with a nested `while` loop, the solution is **O(n)** because each pointer only moves forward.
+
+---
+
+# Author
+
+**Ramit Sarker**
