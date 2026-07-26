@@ -6,8 +6,7 @@ class Solution:
         for j in range(len(nums)):
             window_sum+=nums[j]
             while window_sum>=target:
-                current_len=j-i+1
-                min_len=min(min_len,current_len)
+                min_len=min(min_len,j-i+1)
                 window_sum-=nums[i]
                 i+=1
         if min_len==float('inf'):
