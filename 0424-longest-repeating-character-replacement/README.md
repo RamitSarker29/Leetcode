@@ -4,7 +4,7 @@
 
 You are given a string `s` consisting of uppercase English letters and an integer `k`.
 
-You can replace **at most `k` characters** with any uppercase letter.
+You can replace **at most `k` characters** with any uppercase English letter.
 
 Return the **length of the longest substring** that can be made of the **same character** after performing at most `k` replacements.
 
@@ -14,16 +14,17 @@ Return the **length of the longest substring** that can be made of the **same ch
 
 ### Example 1
 
+**Input:**
 ```text
-Input:
-s = "ABAB"
-k = 2
+s = "ABAB", k = 2
+```
 
-Output:
+**Output:**
+```text
 4
 ```
 
-**Explanation**
+**Explanation:**
 
 Replace the two `A`s with `B`s (or vice versa).
 
@@ -31,22 +32,23 @@ Replace the two `A`s with `B`s (or vice versa).
 ABAB → BBBB
 ```
 
-Length = **4**
+The longest repeating substring has length **4**.
 
 ---
 
 ### Example 2
 
+**Input:**
 ```text
-Input:
-s = "AABABBA"
-k = 1
+s = "AABABBA", k = 1
+```
 
-Output:
+**Output:**
+```text
 4
 ```
 
-**Explanation**
+**Explanation:**
 
 Replace one `A` with `B`.
 
@@ -54,7 +56,7 @@ Replace one `A` with `B`.
 AABABBA → AABBBBA
 ```
 
-The longest substring with the same character is:
+The longest repeating substring is:
 
 ```
 BBBB
@@ -64,51 +66,44 @@ Length = **4**
 
 ---
 
-# Approach (Sliding Window)
+# Approach
 
-We use the **Sliding Window** technique.
+We solve this problem using the **Sliding Window** technique.
 
 ### Observation
 
-For any window,
+For every window,
 
 ```
-Replacements Needed =
-Window Size − Frequency of Most Common Character
+Replacements Needed = Window Size − Frequency of Most Frequent Character
 ```
 
-If the replacements needed are greater than `k`, the window is invalid and must be shrunk.
+If the replacements needed exceed `k`, the window is invalid and must be shrunk.
 
----
+### Algorithm
 
-### Steps
-
-1. Expand the window by moving `j`.
+1. Expand the window by moving the right pointer.
 2. Store the frequency of every character in a hash map.
-3. Maintain the highest frequency (`max_freq`) seen in the current traversal.
+3. Maintain the highest frequency (`max_freq`) seen so far.
 4. If
 
-```text
+```
 (window size - max_freq) > k
 ```
 
 shrink the window from the left.
-5. Update the maximum valid window length.
+5. After the window becomes valid, update the maximum window length.
 
 ---
 
 ## Why don't we decrease `max_freq`?
 
-`max_freq` is allowed to become **stale**.
+Unlike most sliding window problems, we **never decrease** `max_freq`.
 
-When shrinking the window, we **do not recompute** the maximum frequency.
-
-Why?
-
-* Recomputing every time would require scanning the hash map repeatedly.
-* A stale `max_freq` may temporarily make an invalid window appear valid.
-* As the window keeps expanding, the condition eventually becomes invalid and the left pointer catches up.
-* This optimization keeps the algorithm **O(n)** while still producing the correct answer.
+- Updating it after every shrink would require scanning the hash map repeatedly.
+- A stale `max_freq` may temporarily treat an invalid window as valid.
+- As the window expands, the condition eventually becomes invalid and the left pointer catches up.
+- This optimization keeps the solution **O(n)** while still producing the correct answer.
 
 ---
 
@@ -152,17 +147,17 @@ s = "AABABBA"
 k = 1
 ```
 
-| Step  | Window  | Frequency | max_freq | Valid? | max_len |
-| ----- | ------- | --------- | -------: | :----: | ------: |
-| A     | A       | A:1       |        1 |    ✅   |       1 |
-| AA    | AA      | A:2       |        2 |    ✅   |       2 |
-| AAB   | AAB     | A:2 B:1   |        2 |    ✅   |       3 |
-| AABA  | A:3 B:1 | 3         |        ✅ |    4   |         |
-| AABAB | A:3 B:2 | 3         | ❌ Shrink |    4   |         |
-| ABABB | A:2 B:3 | 3         |        ✅ |    4   |         |
-| BABBA | A:2 B:3 | 3         |        ✅ |    4   |         |
+| Step | Window | Frequency | max_freq | Action | max_len |
+|------|--------|-----------|---------:|--------|---------:|
+| 1 | A | A:1 | 1 | Valid | 1 |
+| 2 | AA | A:2 | 2 | Valid | 2 |
+| 3 | AAB | A:2, B:1 | 2 | Valid | 3 |
+| 4 | AABA | A:3, B:1 | 3 | Valid | 4 |
+| 5 | AABAB | A:3, B:2 | 3 | Shrink | 4 |
+| 6 | ABABB | A:2, B:3 | 3 | Valid | 4 |
+| 7 | BABBA | A:2, B:3 | 3 | Valid | 4 |
 
-Final Answer:
+**Final Answer**
 
 ```text
 4
@@ -172,8 +167,8 @@ Final Answer:
 
 # Time Complexity
 
-* Each character enters the window once.
-* Each character leaves the window once.
+- Each character enters the window once.
+- Each character leaves the window once.
 
 **Time Complexity:** `O(n)`
 
@@ -181,9 +176,7 @@ Final Answer:
 
 # Space Complexity
 
-The hash map stores frequencies of uppercase English letters only.
-
-Maximum distinct characters = **26**
+The hash map stores frequencies of at most **26 uppercase English letters**.
 
 **Space Complexity:** `O(1)`
 
@@ -191,37 +184,37 @@ Maximum distinct characters = **26**
 
 # Concepts Used
 
-* Sliding Window
-* Hash Map (Dictionary)
-* Two Pointers
-* Frequency Counting
-* Greedy Observation
+- Sliding Window
+- Two Pointers
+- Hash Map
+- Frequency Counting
+- Greedy
 
 ---
 
 # Python Features Used
 
-* Dictionary
-* `in`
-* `del`
-* `max()`
-* `range()`
+- Dictionary
+- `in`
+- `del`
+- `max()`
+- `range()`
 
 ---
 
 # Key Takeaways
 
-* Expand the window one character at a time.
-* Store character frequencies in a hash map.
-* A window is valid when:
+- Expand the window by moving the right pointer.
+- Keep track of character frequencies.
+- Maintain the highest frequency using `max_freq`.
+- Shrink only when:
 
-```text
-(window size - max_freq) <= k
+```
+(window size - max_freq) > k
 ```
 
-* Shrink only when the window becomes invalid.
-* **Do not decrease `max_freq`** while shrinking; allowing it to be stale is the optimization that makes the solution linear.
-* Update the answer only after the window is valid again.
+- **Never decrease `max_freq`.**
+- Update the answer only after the window becomes valid again.
 
 ---
 
