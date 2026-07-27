@@ -1,6 +1,5 @@
 # LeetCode 1464 - Maximum Product of Two Elements in an Array
 
-> **Note:** Although your prompt says **1574**, the problem shown is actually **LeetCode 1464 - Maximum Product of Two Elements in an Array**.
 
 ---
 
