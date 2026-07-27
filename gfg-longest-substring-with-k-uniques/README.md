@@ -1,4 +1,4 @@
-# Longest Substring with Exactly K Unique Characters (GeeksforGeeks)
+# Longest Substring with Exactly K Unique Characters 
 
 ## Problem
 
