@@ -1,44 +1,310 @@
-<h2><a href="https://leetcode.com/problems/find-the-duplicate-number">287. Find the Duplicate Number</a></h2><h3>Medium</h3><hr><p>Given an array of integers <code>nums</code> containing&nbsp;<code>n + 1</code> integers where each integer is in the range <code>[1, n]</code> inclusive.</p>
+# 287. Find the Duplicate Number
 
-<p>There is only <strong>one repeated number</strong> in <code>nums</code>, return <em>this&nbsp;repeated&nbsp;number</em>.</p>
+## Problem
 
-<p>You must solve the problem <strong>without</strong> modifying the array <code>nums</code>&nbsp;and using only constant extra space.</p>
+Given an integer array `nums` containing `n + 1` integers where every integer is in the range `[1, n]`, there is **exactly one duplicate number**.
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+Return the duplicate number.
 
-<pre>
-<strong>Input:</strong> nums = [1,3,4,2,2]
-<strong>Output:</strong> 2
-</pre>
+### Constraints
 
-<p><strong class="example">Example 2:</strong></p>
+- You **cannot modify** the input array.
+- You must use **O(1)** extra space.
 
-<pre>
-<strong>Input:</strong> nums = [3,1,3,4,2]
-<strong>Output:</strong> 3
-</pre>
+---
 
-<p><strong class="example">Example 3:</strong></p>
+## Examples
 
-<pre>
-<strong>Input:</strong> nums = [3,3,3,3,3]
-<strong>Output:</strong> 3</pre>
+### Example 1
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+**Input**
 
-<ul>
-	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums.length == n + 1</code></li>
-	<li><code>1 &lt;= nums[i] &lt;= n</code></li>
-	<li>All the integers in <code>nums</code> appear only <strong>once</strong> except for <strong>precisely one integer</strong> which appears <strong>two or more</strong> times.</li>
-</ul>
+```text
+nums = [1,3,4,2,2]
+```
 
-<p>&nbsp;</p>
-<p><b>Follow up:</b></p>
+**Output**
 
-<ul>
-	<li>How can we prove that at least one duplicate number must exist in <code>nums</code>?</li>
-	<li>Can you solve the problem in linear runtime complexity?</li>
-</ul>
+```text
+2
+```
+
+---
+
+### Example 2
+
+**Input**
+
+```text
+nums = [3,1,3,4,2]
+```
+
+**Output**
+
+```text
+3
+```
+
+---
+
+### Example 3
+
+**Input**
+
+```text
+nums = [3,3,3,3,3]
+```
+
+**Output**
+
+```text
+3
+```
+
+---
+
+# Approach (Floyd's Cycle Detection Algorithm)
+
+This problem can be converted into a linked list.
+
+Think of every index as a node.
+
+The value stored at each index points to the next index.
+
+```text
+next = nums[current]
+```
+
+Since there are `n + 1` numbers but only `n` possible values, at least one value must repeat.
+
+A repeated value creates a cycle.
+
+Therefore, finding the duplicate number is the same as finding the **starting node of the cycle**.
+
+The algorithm works in two phases.
+
+### Phase 1
+
+Use a slow pointer and a fast pointer.
+
+- Slow moves one step.
+- Fast moves two steps.
+
+If they meet, a cycle exists.
+
+### Phase 2
+
+Start another pointer from index `0`.
+
+Move both pointers one step at a time.
+
+The position where they meet is the duplicate number.
+
+---
+
+# Code
+
+```python
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        slow, fast = 0, 0
+
+        while True:
+            slow = nums[slow]
+            fast = nums[fast]
+            fast = nums[fast]
+
+            if slow == fast:
+                ptr = 0
+
+                while ptr != slow:
+                    slow = nums[slow]
+                    ptr = nums[ptr]
+
+                return ptr
+```
+
+---
+
+# Explanation
+
+Initialize both pointers.
+
+```python
+slow = fast = 0
+```
+
+Move the slow pointer one step.
+
+```python
+slow = nums[slow]
+```
+
+Move the fast pointer two steps.
+
+```python
+fast = nums[fast]
+fast = nums[fast]
+```
+
+If both pointers meet, a cycle has been found.
+
+```python
+if slow == fast:
+```
+
+Create another pointer starting from index `0`.
+
+```python
+ptr = 0
+```
+
+Move both pointers one step at a time.
+
+```python
+while ptr != slow:
+    ptr = nums[ptr]
+    slow = nums[slow]
+```
+
+When they meet, return that value.
+
+```python
+return ptr
+```
+
+---
+
+# Dry Run
+
+### Example
+
+```text
+nums = [1,3,4,2,2]
+```
+
+Treat every index as a node.
+
+```text
+0 → 1
+1 → 3
+2 → 4
+3 → 2
+4 → 2
+```
+
+Graph:
+
+```text
+0 → 1 → 3 → 2 → 4
+          ↑     │
+          └─────┘
+```
+
+The cycle begins at **2**, so the duplicate number is **2**.
+
+### Phase 1
+
+| Iteration | Slow | Fast |
+|-----------|------|------|
+| Start | 0 | 0 |
+| 1 | 1 | 3 |
+| 2 | 3 | 4 |
+| 3 | 2 | 4 |
+| 4 | 4 | 4 ✅ |
+
+The pointers meet inside the cycle.
+
+---
+
+### Phase 2
+
+```text
+ptr = 0
+slow = 4
+```
+
+| Move | ptr | slow |
+|------|-----|------|
+| Start | 0 | 4 |
+| 1 | 1 | 2 |
+| 2 | 3 | 4 |
+| 3 | 2 | 2 ✅ |
+
+Both pointers meet at **2**.
+
+Return:
+
+```text
+2
+```
+
+---
+
+# Time Complexity
+
+```text
+O(n)
+```
+
+The array is traversed a constant number of times.
+
+---
+
+# Space Complexity
+
+```text
+O(1)
+```
+
+Only a few pointers are used.
+
+---
+
+# Concepts Used
+
+- Floyd's Cycle Detection Algorithm
+- Fast & Slow Pointer
+- Two Pointers
+- Array as Linked List
+- Cycle Detection
+
+---
+
+# Python Features Used
+
+### Multiple Variable Assignment
+
+```python
+slow = fast = 0
+```
+
+### Infinite Loop
+
+```python
+while True:
+```
+
+### Array Indexing
+
+```python
+slow = nums[slow]
+fast = nums[nums[fast]]
+```
+
+---
+
+# Key Takeaways
+
+- Treat the array as a linked list where each value points to the next index.
+- The duplicate number creates a cycle.
+- Floyd's Cycle Detection Algorithm finds the cycle without modifying the array.
+- After detecting the cycle, start one pointer from index `0` and move both pointers one step at a time.
+- The point where they meet is the duplicate number.
+- The solution satisfies the required **O(n)** time and **O(1)** extra space.
+
+---
+
+## Author
+
+**Ramit Sarker**
