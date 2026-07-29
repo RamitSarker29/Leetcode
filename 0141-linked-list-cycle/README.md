@@ -11,11 +11,15 @@ Return:
 - `True` if a cycle exists.
 - `False` otherwise.
 
+> **Follow-up:** Solve the problem using **O(1)** extra memory.
+
 ---
 
 ## Examples
 
 ### Example 1
+
+![Example 1](https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png)
 
 **Input**
 
@@ -31,17 +35,13 @@ True
 
 **Explanation**
 
-```text
-3 → 2 → 0 → -4
-    ↑         ↓
-    └─────────┘
-```
-
-The last node points back to the node with value `2`.
+The tail connects back to the node with value `2`, creating a cycle.
 
 ---
 
 ### Example 2
+
+![Example 2](https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test2.png)
 
 **Input**
 
@@ -57,15 +57,13 @@ True
 
 **Explanation**
 
-```text
-1 → 2
-↑   ↓
-└───┘
-```
+The tail connects back to the first node.
 
 ---
 
 ### Example 3
+
+![Example 3](https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test3.png)
 
 **Input**
 
@@ -81,11 +79,7 @@ False
 
 **Explanation**
 
-```text
-1 → None
-```
-
-There is no cycle.
+There is no cycle in the linked list.
 
 ---
 
@@ -93,18 +87,18 @@ There is no cycle.
 
 Use two pointers:
 
-- **Slow Pointer** → Moves **one** step at a time.
-- **Fast Pointer** → Moves **two** steps at a time.
+- **Slow Pointer** → Moves one step at a time.
+- **Fast Pointer** → Moves two steps at a time.
 
 ### Observation
 
-- If there is **no cycle**, the fast pointer will eventually reach the end of the linked list (`None`).
-- If there **is a cycle**, the fast pointer will eventually catch up to the slow pointer.
+- If the linked list **does not contain a cycle**, the fast pointer will eventually reach `None`.
+- If the linked list **contains a cycle**, the fast pointer will eventually catch up with the slow pointer.
 
 Therefore,
 
-- If `slow == fast`, return `True`.
-- If the loop ends, return `False`.
+- If both pointers meet → return `True`.
+- If the loop finishes → return `False`.
 
 ---
 
@@ -153,14 +147,14 @@ Move the fast pointer by two nodes.
 fast = fast.next.next
 ```
 
-If both pointers meet, a cycle exists.
+If both pointers point to the same node, a cycle exists.
 
 ```python
 if slow == fast:
     return True
 ```
 
-If the loop finishes, the fast pointer has reached the end of the list, meaning there is no cycle.
+If the fast pointer reaches the end of the linked list, there is no cycle.
 
 ```python
 return False
@@ -170,22 +164,24 @@ return False
 
 # Dry Run
 
-### Example 1 (Cycle Exists)
+### Example (Cycle Exists)
 
 ```text
-1 → 2 → 3 → 4 → 5
-      ↑         ↓
-      └─────────┘
+3 → 2 → 0 → -4
+    ↑       ↓
+    └───────┘
 ```
 
 | Iteration | Slow | Fast |
 |-----------|------|------|
-| Start | 1 | 1 |
-| 1 | 2 | 3 |
-| 2 | 3 | 5 |
-| 3 | 4 | 4 ✅ |
+| Start | 3 | 3 |
+| 1 | 2 | 0 |
+| 2 | 0 | 2 |
+| 3 | -4 | -4 ✅ |
 
-Since both pointers meet, return:
+The two pointers meet, so a cycle exists.
+
+Return:
 
 ```text
 True
@@ -193,7 +189,7 @@ True
 
 ---
 
-### Example 2 (No Cycle)
+### Example (No Cycle)
 
 ```text
 1 → 2 → 3 → 4 → None
@@ -205,7 +201,9 @@ True
 | 1 | 2 | 3 |
 | 2 | 3 | None |
 
-The fast pointer reaches `None`, so return:
+The fast pointer reaches `None`, so the linked list does not contain a cycle.
+
+Return:
 
 ```text
 False
@@ -237,7 +235,7 @@ Only two pointers are used.
 
 - Linked List
 - Two Pointers
-- Fast and Slow Pointer
+- Fast & Slow Pointer Technique
 - Floyd's Cycle Detection Algorithm
 - Pointer Traversal
 
@@ -245,25 +243,40 @@ Only two pointers are used.
 
 # Python Features Used
 
-- Multiple Variable Assignment
+### Multiple Variable Assignment
 
 ```python
 slow = fast = head
 ```
 
-- `while` loop
-- Pointer Manipulation
-- Object Comparison
+### While Loop
+
+```python
+while fast != None and fast.next != None:
+```
+
+### Pointer Manipulation
+
+```python
+slow = slow.next
+fast = fast.next.next
+```
+
+### Object Comparison
+
+```python
+if slow == fast:
+```
 
 ---
 
 # Key Takeaways
 
 - Use two pointers moving at different speeds.
-- If a cycle exists, the fast pointer eventually catches the slow pointer.
+- If there is a cycle, the fast pointer will eventually meet the slow pointer.
 - If the fast pointer reaches `None`, the linked list has no cycle.
-- Before accessing `fast.next.next`, always ensure `fast` and `fast.next` are not `None`.
-- Floyd's Cycle Detection solves the problem in **O(n)** time and **O(1)** extra space.
+- Before accessing `fast.next.next`, always ensure both `fast` and `fast.next` exist.
+- Floyd's Cycle Detection Algorithm solves the problem in **O(n)** time using **O(1)** extra space.
 
 ---
 
