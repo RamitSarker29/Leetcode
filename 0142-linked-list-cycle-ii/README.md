@@ -107,21 +107,15 @@ Once `slow` and `fast` meet,
 class Solution:
     def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
         slow = fast = head
-
         while fast != None and fast.next != None:
             slow = slow.next
             fast = fast.next.next
-
             if slow == fast:
                 ptr = head
-
                 while ptr != slow:
                     ptr = ptr.next
                     slow = slow.next
-
                 return ptr
-
-        return None
 ```
 
 ---
