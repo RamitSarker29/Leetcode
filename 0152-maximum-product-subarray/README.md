@@ -1,31 +1,293 @@
-<h2><a href="https://leetcode.com/problems/maximum-product-subarray">152. Maximum Product Subarray</a></h2><h3>Medium</h3><hr><p>Given an integer array <code>nums</code>, find a <span data-keyword="subarray-nonempty">subarray</span> that has the largest product, and return <em>the product</em>.</p>
+# 152. Maximum Product Subarray
 
-<p>The test cases are generated so that the answer will fit in a <strong>32-bit</strong> integer.</p>
+## Problem
 
-<p><strong>Note</strong> that the product of an array with a single element is the value of that element.</p>
+Given an integer array `nums`, find the **contiguous subarray** (containing at least one number) that has the **largest product**, and return its product.
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+The answer is guaranteed to fit in a **32-bit integer**.
 
-<pre>
-<strong>Input:</strong> nums = [2,3,-2,4]
-<strong>Output:</strong> 6
-<strong>Explanation:</strong> [2,3] has the largest product 6.
-</pre>
+---
 
-<p><strong class="example">Example 2:</strong></p>
+## Examples
 
-<pre>
-<strong>Input:</strong> nums = [-2,0,-1]
-<strong>Output:</strong> 0
-<strong>Explanation:</strong> The result cannot be 2, because [-2,-1] is not a subarray.
-</pre>
+### Example 1
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+**Input**
 
-<ul>
-	<li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>-10 &lt;= nums[i] &lt;= 10</code></li>
-	<li>The product of any subarray of <code>nums</code> is <strong>guaranteed</strong> to fit in a <strong>32-bit</strong> integer.</li>
-</ul>
+```text
+nums = [2,3,-2,4]
+```
+
+**Output**
+
+```text
+6
+```
+
+**Explanation**
+
+The maximum product subarray is:
+
+```text
+[2,3]
+```
+
+Product:
+
+```text
+2 × 3 = 6
+```
+
+---
+
+### Example 2
+
+**Input**
+
+```text
+nums = [-2,0,-1]
+```
+
+**Output**
+
+```text
+0
+```
+
+**Explanation**
+
+Although:
+
+```text
+(-2) × (-1) = 2
+```
+
+they are **not contiguous** because `0` lies between them.
+
+The maximum product subarray is:
+
+```text
+[0]
+```
+
+---
+
+# Approach (Dynamic Programming / Modified Kadane's Algorithm)
+
+Unlike the Maximum Sum Subarray problem, a **negative number can completely change the answer**.
+
+- Multiplying a **large positive** product by a negative number becomes a **large negative** product.
+- Multiplying a **large negative** product by another negative number becomes a **large positive** product.
+
+Therefore, at every index we maintain:
+
+- `max_ans` → Maximum product of a subarray ending at the current index.
+- `min_ans` → Minimum product of a subarray ending at the current index.
+
+For every element, there are three possibilities:
+
+1. Start a new subarray.
+2. Extend the previous maximum product.
+3. Extend the previous minimum product.
+
+The overall answer is updated using the maximum product seen so far.
+
+---
+
+# Code
+
+```python
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        min_ans = nums[0]
+        max_ans = nums[0]
+        ans = nums[0]
+
+        for i in range(1, len(nums)):
+            v1 = nums[i]
+            v2 = min_ans * nums[i]
+            v3 = max_ans * nums[i]
+
+            min_ans = min(v1, min(v2, v3))
+            max_ans = max(v1, max(v2, v3))
+
+            ans = max(ans, max(min_ans, max_ans))
+
+        return ans
+```
+
+---
+
+# Explanation
+
+Initialize all three variables with the first element.
+
+```python
+min_ans = nums[0]
+max_ans = nums[0]
+ans = nums[0]
+```
+
+Traverse the remaining elements.
+
+```python
+for i in range(1, len(nums)):
+```
+
+Three possible products:
+
+Start a new subarray.
+
+```python
+v1 = nums[i]
+```
+
+Extend the previous minimum product.
+
+```python
+v2 = min_ans * nums[i]
+```
+
+Extend the previous maximum product.
+
+```python
+v3 = max_ans * nums[i]
+```
+
+Find the new minimum product ending at the current index.
+
+```python
+min_ans = min(v1, v2, v3)
+```
+
+Find the new maximum product ending at the current index.
+
+```python
+max_ans = max(v1, v2, v3)
+```
+
+Update the overall maximum product.
+
+```python
+ans = max(ans, max(min_ans, max_ans))
+```
+
+Return the answer.
+
+```python
+return ans
+```
+
+---
+
+# Dry Run
+
+### Example
+
+```text
+nums = [2,3,-2,4]
+```
+
+| Index | Current | v1 | v2 | v3 | min_ans | max_ans | ans |
+|------:|--------:|---:|---:|---:|--------:|--------:|----:|
+| 0 | 2 | - | - | - | 2 | 2 | 2 |
+| 1 | 3 | 3 | 6 | 6 | 3 | 6 | 6 |
+| 2 | -2 | -2 | -6 | -12 | -12 | -2 | 6 |
+| 3 | 4 | 4 | -48 | -8 | -48 | 4 | 6 |
+
+Final answer:
+
+```text
+6
+```
+
+---
+
+### Example
+
+```text
+nums = [-2,0,-1]
+```
+
+| Index | Current | min_ans | max_ans | ans |
+|------:|--------:|--------:|--------:|----:|
+| 0 | -2 | -2 | -2 | -2 |
+| 1 | 0 | 0 | 0 | 0 |
+| 2 | -1 | -1 | 0 | 0 |
+
+Return:
+
+```text
+0
+```
+
+---
+
+# Time Complexity
+
+```text
+O(n)
+```
+
+The array is traversed once.
+
+---
+
+# Space Complexity
+
+```text
+O(1)
+```
+
+Only constant extra space is used.
+
+---
+
+# Concepts Used
+
+- Dynamic Programming
+- Modified Kadane's Algorithm
+- Arrays
+- Negative Number Handling
+
+---
+
+# Python Features Used
+
+### Multiple Assignment
+
+```python
+min_ans = max_ans = ans = nums[0]
+```
+
+### For Loop
+
+```python
+for i in range(1, len(nums)):
+```
+
+### min() and max()
+
+```python
+min_ans = min(v1, v2, v3)
+max_ans = max(v1, v2, v3)
+```
+
+---
+
+# Key Takeaways
+
+- Product problems are harder than sum problems because **negative numbers can flip signs**.
+- Track **both the maximum and minimum products** ending at each index.
+- At every step, consider:
+  - Starting a new subarray.
+  - Extending the previous maximum product.
+  - Extending the previous minimum product.
+- Update the global answer using the current maximum product.
+- The algorithm runs in **O(n)** time and **O(1)** space.
+
+---
+
+## Author
+
+**Ramit Sarker**
