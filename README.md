@@ -23,6 +23,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0485-max-consecutive-ones](https://github.com/RamitSarker29/Leetcode/tree/master/0485-max-consecutive-ones) |
 | [0904-fruit-into-baskets](https://github.com/RamitSarker29/Leetcode/tree/master/0904-fruit-into-baskets) |
 | [0977-squares-of-a-sorted-array](https://github.com/RamitSarker29/Leetcode/tree/master/0977-squares-of-a-sorted-array) |
+| [1186-maximum-subarray-sum-with-one-deletion](https://github.com/RamitSarker29/Leetcode/tree/master/1186-maximum-subarray-sum-with-one-deletion) |
 | [1464-maximum-product-of-two-elements-in-an-array](https://github.com/RamitSarker29/Leetcode/tree/master/1464-maximum-product-of-two-elements-in-an-array) |
 | [3940-limit-occurrences-in-sorted-array](https://github.com/RamitSarker29/Leetcode/tree/master/3940-limit-occurrences-in-sorted-array) |
 ## Two Pointers
@@ -78,6 +79,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0053-maximum-subarray](https://github.com/RamitSarker29/Leetcode/tree/master/0053-maximum-subarray) |
 | [0121-best-time-to-buy-and-sell-stock](https://github.com/RamitSarker29/Leetcode/tree/master/0121-best-time-to-buy-and-sell-stock) |
 | [0152-maximum-product-subarray](https://github.com/RamitSarker29/Leetcode/tree/master/0152-maximum-product-subarray) |
+| [1186-maximum-subarray-sum-with-one-deletion](https://github.com/RamitSarker29/Leetcode/tree/master/1186-maximum-subarray-sum-with-one-deletion) |
 ## Sorting
 |  |
 | ------- |
