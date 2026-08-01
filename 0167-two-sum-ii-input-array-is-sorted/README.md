@@ -1,43 +1,300 @@
-<h2><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted">167. Two Sum II - Input Array Is Sorted</a></h2><h3>Medium</h3><hr><p>Given a <strong>1-indexed</strong> array of integers <code>numbers</code> that is already <strong><em>sorted in non-decreasing order</em></strong>, find two numbers such that they add up to a specific <code>target</code> number. Let these two numbers be <code>numbers[index<sub>1</sub>]</code> and <code>numbers[index<sub>2</sub>]</code> where <code>1 &lt;= index<sub>1</sub> &lt; index<sub>2</sub> &lt;= numbers.length</code>.</p>
+# 167. Two Sum II - Input Array Is Sorted
 
-<p>Return<em> the indices of the two numbers&nbsp;</em><code>index<sub>1</sub></code><em> and </em><code>index<sub>2</sub></code><em>, <strong>each incremented by one,</strong> as an integer array </em><code>[index<sub>1</sub>, index<sub>2</sub>]</code><em> of length 2.</em></p>
+## Problem
 
-<p>The tests are generated such that there is <strong>exactly one solution</strong>. You <strong>may not</strong> use the same element twice.</p>
+Given a **1-indexed** sorted array `numbers` and an integer `target`, find two numbers such that they add up to the target.
 
-<p>Your solution must use only constant extra space.</p>
+Return their **1-based indices**.
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+- The array is sorted in **non-decreasing order**.
+- Exactly **one solution** exists.
+- You cannot use the same element twice.
+- Use only **constant extra space**.
 
-<pre>
-<strong>Input:</strong> numbers = [<u>2</u>,<u>7</u>,11,15], target = 9
-<strong>Output:</strong> [1,2]
-<strong>Explanation:</strong> The sum of 2 and 7 is 9. Therefore, index<sub>1</sub> = 1, index<sub>2</sub> = 2. We return [1, 2].
-</pre>
+---
 
-<p><strong class="example">Example 2:</strong></p>
+## Examples
 
-<pre>
-<strong>Input:</strong> numbers = [<u>2</u>,3,<u>4</u>], target = 6
-<strong>Output:</strong> [1,3]
-<strong>Explanation:</strong> The sum of 2 and 4 is 6. Therefore index<sub>1</sub> = 1, index<sub>2</sub> = 3. We return [1, 3].
-</pre>
+### Example 1
 
-<p><strong class="example">Example 3:</strong></p>
+**Input**
 
-<pre>
-<strong>Input:</strong> numbers = [<u>-1</u>,<u>0</u>], target = -1
-<strong>Output:</strong> [1,2]
-<strong>Explanation:</strong> The sum of -1 and 0 is -1. Therefore index<sub>1</sub> = 1, index<sub>2</sub> = 2. We return [1, 2].
-</pre>
+```text
+numbers = [2,7,11,15]
+target = 9
+```
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+**Output**
 
-<ul>
-	<li><code>2 &lt;= numbers.length &lt;= 3 * 10<sup>4</sup></code></li>
-	<li><code>-1000 &lt;= numbers[i] &lt;= 1000</code></li>
-	<li><code>numbers</code> is sorted in <strong>non-decreasing order</strong>.</li>
-	<li><code>-1000 &lt;= target &lt;= 1000</code></li>
-	<li>The tests are generated such that there is <strong>exactly one solution</strong>.</li>
-</ul>
+```text
+[1,2]
+```
+
+**Explanation**
+
+```text
+2 + 7 = 9
+```
+
+---
+
+### Example 2
+
+**Input**
+
+```text
+numbers = [2,3,4]
+target = 6
+```
+
+**Output**
+
+```text
+[1,3]
+```
+
+---
+
+### Example 3
+
+**Input**
+
+```text
+numbers = [-1,0]
+target = -1
+```
+
+**Output**
+
+```text
+[1,2]
+```
+
+---
+
+# Intuition
+
+Since the array is **already sorted**, we don't need a HashMap.
+
+Use two pointers.
+
+- Left pointer starts at the beginning.
+- Right pointer starts at the end.
+
+Compare their sum with the target.
+
+---
+
+# Approach
+
+### Case 1
+
+If
+
+```text
+current_sum > target
+```
+
+Move the **right pointer** left.
+
+Since the array is sorted, moving left decreases the sum.
+
+---
+
+### Case 2
+
+If
+
+```text
+current_sum < target
+```
+
+Move the **left pointer** right.
+
+Moving right increases the sum.
+
+---
+
+### Case 3
+
+If
+
+```text
+current_sum == target
+```
+
+Return the two indices.
+
+---
+
+# Algorithm
+
+1. Initialize two pointers.
+
+```python
+i = 0
+j = len(numbers) - 1
+```
+
+2. While the pointers haven't crossed:
+
+- Compute the current sum.
+- Compare it with the target.
+- Move one pointer accordingly.
+
+3. Return the indices when the target is found.
+
+---
+
+# Code
+
+```python
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        i = 0
+        j = len(numbers) - 1
+
+        while i < j:
+            current_sum = numbers[i] + numbers[j]
+
+            if current_sum > target:
+                j -= 1
+            elif current_sum < target:
+                i += 1
+            else:
+                return i + 1, j + 1
+```
+
+---
+
+# Dry Run
+
+### Example
+
+```text
+numbers = [2,7,11,15]
+target = 9
+```
+
+| Left | Right | Values | Sum | Action |
+|-----:|------:|--------|----:|--------|
+| 0 | 3 | 2,15 | 17 | Move right |
+| 0 | 2 | 2,11 | 13 | Move right |
+| 0 | 1 | 2,7 | 9 | Return `[1,2]` |
+
+---
+
+### Example
+
+```text
+numbers = [2,3,4]
+target = 6
+```
+
+| Left | Right | Values | Sum | Action |
+|-----:|------:|--------|----:|--------|
+| 0 | 2 | 2,4 | 6 | Return `[1,3]` |
+
+---
+
+# Why Does This Work?
+
+The array is sorted.
+
+If
+
+```text
+numbers[left] + numbers[right] > target
+```
+
+then increasing the left pointer would only make the sum **larger**.
+
+So the only way to reduce the sum is:
+
+```text
+Move the right pointer left.
+```
+
+Similarly,
+
+If
+
+```text
+numbers[left] + numbers[right] < target
+```
+
+the only way to increase the sum is:
+
+```text
+Move the left pointer right.
+```
+
+This guarantees we never miss the correct pair.
+
+---
+
+# Time Complexity
+
+```text
+O(n)
+```
+
+Each pointer moves at most `n` times.
+
+---
+
+# Space Complexity
+
+```text
+O(1)
+```
+
+Only two pointers are used.
+
+---
+
+# Concepts Used
+
+- Two Pointers
+- Sorted Array
+- Greedy
+
+---
+
+# Python Features Used
+
+### While Loop
+
+```python
+while i < j:
+```
+
+### Conditional Statements
+
+```python
+if
+elif
+else
+```
+
+### Returning a List
+
+```python
+return i + 1, j + 1
+```
+
+---
+
+# Key Takeaways
+
+- Use two pointers because the array is already sorted.
+- If the sum is too large, move the right pointer.
+- If the sum is too small, move the left pointer.
+- Runs in **O(n)** time with **O(1)** extra space.
+- No HashMap is required.
+
+---
+
+## Author
+
+**Ramit Sarker**
