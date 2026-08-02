@@ -12,6 +12,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0016-3sum-closest](https://github.com/RamitSarker29/Leetcode/tree/master/0016-3sum-closest) |
 | [0026-remove-duplicates-from-sorted-array](https://github.com/RamitSarker29/Leetcode/tree/master/0026-remove-duplicates-from-sorted-array) |
 | [0027-remove-element](https://github.com/RamitSarker29/Leetcode/tree/master/0027-remove-element) |
+| [0042-trapping-rain-water](https://github.com/RamitSarker29/Leetcode/tree/master/0042-trapping-rain-water) |
 | [0053-maximum-subarray](https://github.com/RamitSarker29/Leetcode/tree/master/0053-maximum-subarray) |
 | [0066-plus-one](https://github.com/RamitSarker29/Leetcode/tree/master/0066-plus-one) |
 | [0075-sort-colors](https://github.com/RamitSarker29/Leetcode/tree/master/0075-sort-colors) |
@@ -38,6 +39,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0016-3sum-closest](https://github.com/RamitSarker29/Leetcode/tree/master/0016-3sum-closest) |
 | [0026-remove-duplicates-from-sorted-array](https://github.com/RamitSarker29/Leetcode/tree/master/0026-remove-duplicates-from-sorted-array) |
 | [0027-remove-element](https://github.com/RamitSarker29/Leetcode/tree/master/0027-remove-element) |
+| [0042-trapping-rain-water](https://github.com/RamitSarker29/Leetcode/tree/master/0042-trapping-rain-water) |
 | [0075-sort-colors](https://github.com/RamitSarker29/Leetcode/tree/master/0075-sort-colors) |
 | [0088-merge-sorted-array](https://github.com/RamitSarker29/Leetcode/tree/master/0088-merge-sorted-array) |
 | [0141-linked-list-cycle](https://github.com/RamitSarker29/Leetcode/tree/master/0141-linked-list-cycle) |
@@ -82,6 +84,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 ## Dynamic Programming
 |  |
 | ------- |
+| [0042-trapping-rain-water](https://github.com/RamitSarker29/Leetcode/tree/master/0042-trapping-rain-water) |
 | [0053-maximum-subarray](https://github.com/RamitSarker29/Leetcode/tree/master/0053-maximum-subarray) |
 | [0121-best-time-to-buy-and-sell-stock](https://github.com/RamitSarker29/Leetcode/tree/master/0121-best-time-to-buy-and-sell-stock) |
 | [0152-maximum-product-subarray](https://github.com/RamitSarker29/Leetcode/tree/master/0152-maximum-product-subarray) |
@@ -147,4 +150,12 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 |  |
 | ------- |
 | [0011-container-with-most-water](https://github.com/RamitSarker29/Leetcode/tree/master/0011-container-with-most-water) |
+## Stack
+|  |
+| ------- |
+| [0042-trapping-rain-water](https://github.com/RamitSarker29/Leetcode/tree/master/0042-trapping-rain-water) |
+## Monotonic Stack
+|  |
+| ------- |
+| [0042-trapping-rain-water](https://github.com/RamitSarker29/Leetcode/tree/master/0042-trapping-rain-water) |
 <!---LeetCode Topics End-->
