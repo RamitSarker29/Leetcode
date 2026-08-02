@@ -3,7 +3,7 @@ class Solution:
         i=0
         j=0
         zero_count=0
-        max_len=float('-inf')
+        max_len=0
         for j in range(len(nums)):
             if nums[j]==0:
                 zero_count+=1
