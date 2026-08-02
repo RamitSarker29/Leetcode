@@ -2,7 +2,7 @@
 
 ## Problem
 
-Given an integer array `nums` and an integer `k`, find the contiguous subarray of **length exactly `k`** that has the maximum average value.
+Given an integer array `nums` consisting of `n` elements and an integer `k`, find the contiguous subarray of **length exactly `k`** that has the maximum average value.
 
 Return the maximum average.
 
@@ -27,7 +27,7 @@ k = 4
 
 **Explanation**
 
-Possible subarrays of length `4`:
+Possible windows of length `4`:
 
 ```text
 [1,12,-5,-6]  → Sum = 2
@@ -35,13 +35,13 @@ Possible subarrays of length `4`:
 [-5,-6,50,3]  → Sum = 42
 ```
 
-Maximum sum:
+Maximum window sum:
 
 ```text
 51
 ```
 
-Average:
+Maximum average:
 
 ```text
 51 / 4 = 12.75
@@ -68,14 +68,14 @@ k = 1
 
 # Intuition
 
-Since the subarray length is **fixed (`k`)**, recalculating the sum of every window would be inefficient.
+Since the window size is **fixed** (`k`), we don't need to recalculate the sum of every window.
 
-Instead, use a **Sliding Window**.
+Instead:
 
-- Compute the sum of the current window.
-- When the window moves:
-  - Remove the leftmost element.
-  - Add the new rightmost element.
+- Compute the sum of the **first window**.
+- Move the window one position to the right.
+- Remove the element leaving the window.
+- Add the new element entering the window.
 
 This updates the window sum in **O(1)** time.
 
@@ -83,17 +83,14 @@ This updates the window sum in **O(1)** time.
 
 # Approach
 
-Maintain a window of exactly `k` elements.
-
-For every new element:
-
-1. Add it to the window.
-2. If the window becomes larger than `k`:
-   - Remove the leftmost element.
-3. Once the window size becomes `k`:
+1. Calculate the sum of the first `k` elements.
+2. Store it as the current maximum.
+3. Slide the window one element at a time.
+4. For every slide:
+   - Add the new element.
+   - Remove the old element.
    - Update the maximum window sum.
-
-Finally,
+5. Return:
 
 ```text
 Maximum Average = Maximum Window Sum / k
@@ -103,32 +100,32 @@ Maximum Average = Maximum Window Sum / k
 
 # Algorithm
 
-1. Initialize:
+1. Compute the first window sum.
 
 ```python
-left = 0
-window_sum = 0
-max_sum = -∞
+window_sum = sum(nums[:k])
 ```
 
-2. Traverse the array using `right`.
-
-3. Add the current element.
+2. Store it as the maximum.
 
 ```python
-window_sum += nums[right]
+max_sum = window_sum
 ```
 
-4. If window size exceeds `k`, remove the leftmost element.
+3. Slide the window.
 
 ```python
-window_sum -= nums[left]
-left += 1
+window_sum += nums[i]
+window_sum -= nums[i-k]
 ```
 
-5. When the window size becomes exactly `k`, update the maximum sum.
+4. Update the maximum sum.
 
-6. Return:
+```python
+max_sum = max(max_sum, window_sum)
+```
+
+5. Return:
 
 ```python
 max_sum / k
@@ -141,19 +138,12 @@ max_sum / k
 ```python
 class Solution:
     def findMaxAverage(self, nums: List[int], k: int) -> float:
-        left = 0
-        window_sum = 0
-        max_sum = float("-inf")
+        window_sum = sum(nums[:k])
+        max_sum = window_sum
 
-        for right in range(len(nums)):
-            window_sum += nums[right]
-
-            if right - left + 1 > k:
-                window_sum -= nums[left]
-                left += 1
-
-            if right - left + 1 == k:
-                max_sum = max(max_sum, window_sum)
+        for i in range(k, len(nums)):
+            window_sum += nums[i] - nums[i-k]
+            max_sum = max(max_sum, window_sum)
 
         return max_sum / k
 ```
@@ -169,13 +159,74 @@ nums = [1,12,-5,-6,50,3]
 k = 4
 ```
 
-| Window | Window Sum | Maximum Sum |
-|---------|-----------:|------------:|
-| `[1,12,-5,-6]` | 2 | 2 |
-| `[12,-5,-6,50]` | 51 | 51 |
-| `[-5,-6,50,3]` | 42 | 51 |
+### First Window
 
-Final Answer:
+```text
+[1,12,-5,-6]
+```
+
+```text
+window_sum = 2
+max_sum = 2
+```
+
+---
+
+### Slide 1
+
+Remove:
+
+```text
+1
+```
+
+Add:
+
+```text
+50
+```
+
+New window:
+
+```text
+[12,-5,-6,50]
+```
+
+```text
+window_sum = 2 - 1 + 50 = 51
+max_sum = 51
+```
+
+---
+
+### Slide 2
+
+Remove:
+
+```text
+12
+```
+
+Add:
+
+```text
+3
+```
+
+New window:
+
+```text
+[-5,-6,50,3]
+```
+
+```text
+window_sum = 51 - 12 + 3 = 42
+max_sum = 51
+```
+
+---
+
+Final Answer
 
 ```text
 51 / 4 = 12.75
@@ -183,28 +234,37 @@ Final Answer:
 
 ---
 
-# Why Sliding Window?
+# Why Does This Work?
 
-Without Sliding Window:
-
-For every subarray of size `k`, we'd calculate its sum again.
+Every time the window moves:
 
 ```text
-Time Complexity = O(n × k)
+Old Window
+
+[a, b, c, d]
+
+↓
+
+New Window
+
+[b, c, d, e]
 ```
 
-With Sliding Window:
-
-Each element is:
-
-- Added once.
-- Removed once.
-
-So,
+Instead of computing:
 
 ```text
-Time Complexity = O(n)
+b + c + d + e
 ```
+
+again, we simply do:
+
+```text
+Old Sum
+- Element Leaving
++ Element Entering
+```
+
+This makes every slide **O(1)**.
 
 ---
 
@@ -214,7 +274,14 @@ Time Complexity = O(n)
 O(n)
 ```
 
-Each element enters and leaves the window at most once.
+- First window: `O(k)`
+- Sliding the window: `O(n-k)`
+
+Overall:
+
+```text
+O(n)
+```
 
 ---
 
@@ -237,7 +304,30 @@ Only a few variables are used.
 
 # Python Features Used
 
-### Maximum Value
+### First Window Sum
+
+```python
+window_sum = sum(nums[:k])
+```
+
+---
+
+### Slide the Window
+
+```python
+window_sum += nums[i]
+window_sum -= nums[i-k]
+```
+
+or
+
+```python
+window_sum += nums[i] - nums[i-k]
+```
+
+---
+
+### Update Maximum
 
 ```python
 max_sum = max(max_sum, window_sum)
@@ -245,32 +335,16 @@ max_sum = max(max_sum, window_sum)
 
 ---
 
-### Window Size
-
-```python
-right - left + 1
-```
-
----
-
-### Sliding the Window
-
-```python
-window_sum += nums[right]
-window_sum -= nums[left]
-```
-
----
-
 # Key Takeaways
 
-- The window size is **fixed**.
-- Instead of recalculating the sum, update it by:
-  - Adding the new element.
-  - Removing the old element.
-- Track the **maximum window sum**.
-- Divide by `k` only once at the end.
-- Sliding Window reduces the complexity from **O(n × k)** to **O(n)**.
+- This is a **Fixed Size Sliding Window** problem.
+- The window size **never changes**.
+- Build the first window once.
+- Every slide:
+  - Remove one element.
+  - Add one element.
+- No `while` loop is needed because the window size is always exactly `k`.
+- Runs in **O(n)** time with **O(1)** extra space.
 
 ---
 
