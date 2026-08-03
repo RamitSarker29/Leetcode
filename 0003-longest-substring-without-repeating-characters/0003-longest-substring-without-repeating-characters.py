@@ -12,6 +12,8 @@ class Solution:
             while hash_map[s[j]]>1:
                 hash_map[s[i]]-=1
                 i+=1
+                if hash_map[s[i]]==0:
+                    del hash_map[s[i]]
             max_len=max(max_len,j-i+1)
         return max_len
         
