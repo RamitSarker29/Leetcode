@@ -4,7 +4,7 @@
 
 Given an integer array `nums` and an integer `k`, return the **total number of continuous subarrays** whose sum is exactly `k`.
 
-A **subarray** is a contiguous sequence of elements within the array.
+A **subarray** is a contiguous non-empty sequence of elements within the array.
 
 ---
 
@@ -27,7 +27,7 @@ k = 2
 
 **Explanation**
 
-The subarrays are:
+The valid subarrays are:
 
 ```text
 [1,1]   (index 0 → 1)
@@ -66,23 +66,23 @@ The valid subarrays are:
 
 # Intuition
 
-A brute-force solution checks every possible subarray and calculates its sum.
-
-This takes:
+A brute-force approach checks every possible subarray and calculates its sum.
 
 ```text
-O(n²)
+Time Complexity = O(n²)
 ```
 
-Instead, we use a **running prefix sum**.
+This is inefficient for large arrays.
+
+Instead, we use a **Running Prefix Sum**.
 
 At every index:
 
 ```text
 Current Prefix Sum
+=
+Sum of all elements from index 0 to the current index.
 ```
-
-stores the sum from the beginning of the array up to the current index.
 
 If
 
@@ -118,48 +118,63 @@ because
 10 - 6 = 4
 ```
 
-If we've already seen prefix sum `6`, then we've found a valid subarray.
+If we've already seen prefix sum `6`, then we've found a subarray whose sum is `4`.
 
 ---
 
-# Approach
+# Why HashMap?
 
-Maintain:
-
-- A running prefix sum.
-- A HashMap storing the **frequency** of every prefix sum.
-
-For every element:
-
-1. Update the running prefix sum.
-2. Compute:
+The HashMap stores:
 
 ```text
-needed = prefix_sum - k
+Prefix Sum → Frequency
 ```
 
-3. If `needed` exists in the HashMap, add its frequency to the answer.
-4. Store the current prefix sum in the HashMap.
+Example:
+
+```python
+{
+    0: 1,
+    3: 2,
+    5: 1
+}
+```
+
+This means:
+
+- Prefix sum `0` has appeared once.
+- Prefix sum `3` has appeared twice.
+- Prefix sum `5` has appeared once.
+
+Whenever we need a previous prefix sum,
+
+```python
+ans = prefix_sum - k
+```
+
+we simply check whether it exists in the HashMap.
 
 ---
 
-# Why Frequency?
+# Why Store Frequency?
 
-The same prefix sum can appear multiple times.
+A prefix sum can occur multiple times.
 
-Each occurrence represents a different starting point for a valid subarray.
+Each occurrence represents a different starting point of a valid subarray.
 
-Therefore,
-
-```python
-res += hash_map[needed]
-```
-
-instead of
+So instead of
 
 ```python
 res += 1
 ```
+
+we do
+
+```python
+res += hash_map[ans]
+```
+
+to count **all** valid subarrays.
 
 ---
 
@@ -179,11 +194,9 @@ This helps count subarrays that begin from **index 0**.
 
 ---
 
-# Algorithm
+# Approach
 
-### Step 1
-
-Initialize:
+1. Initialize:
 
 ```python
 prefix_sum = 0
@@ -191,59 +204,63 @@ hash_map = {0:1}
 res = 0
 ```
 
----
+2. Traverse the array.
 
-### Step 2
-
-Traverse the array.
+3. Update the running prefix sum.
 
 ```python
-for num in nums:
+prefix_sum += i
 ```
 
----
-
-### Step 3
-
-Update the running prefix sum.
-
-```python
-prefix_sum += num
-```
-
----
-
-### Step 4
-
-Find the required previous prefix sum.
+4. Find the required previous prefix sum.
 
 ```python
 ans = prefix_sum - k
 ```
 
----
-
-### Step 5
-
-If it exists, add its frequency.
+5. If it exists, add its frequency.
 
 ```python
-if ans in hash_map:
-    res += hash_map[ans]
+res += hash_map[ans]
 ```
+
+6. Store the current prefix sum.
 
 ---
 
-### Step 6
+# Algorithm
 
-Store the current prefix sum.
+1. Start with:
 
 ```python
-if prefix_sum in hash_map:
-    hash_map[prefix_sum] += 1
-else:
-    hash_map[prefix_sum] = 1
+prefix_sum = 0
+hash_map = {0:1}
+res = 0
 ```
+
+2. Traverse the array.
+
+3. Update:
+
+```python
+prefix_sum += i
+```
+
+4. Compute:
+
+```python
+ans = prefix_sum - k
+```
+
+5. If `ans` exists:
+
+```python
+res += hash_map[ans]
+```
+
+6. Store/update the current prefix sum frequency.
+
+7. Return `res`.
 
 ---
 
@@ -293,11 +310,11 @@ hash_map = {0:1}
 res = 0
 ```
 
-| Current Number | Prefix Sum | Needed (`prefix_sum-k`) | HashMap | Result |
-|---------------:|-----------:|------------------------:|:-------:|-------:|
-| 1 | 1 | -1 | Not Found | 0 |
-| 1 | 2 | 0 | Found (1 time) | 1 |
-| 1 | 3 | 1 | Found (1 time) | 2 |
+| Current Number | Prefix Sum | `ans = prefix_sum-k` | Found? | Result |
+|---------------:|-----------:|---------------------:|:------:|-------:|
+| 1 | 1 | -1 | ❌ | 0 |
+| 1 | 2 | 0 | ✅ (1 time) | 1 |
+| 1 | 3 | 1 | ✅ (1 time) | 2 |
 
 Final Answer:
 
@@ -309,23 +326,33 @@ Final Answer:
 
 # Why Does This Work?
 
-At every index,
+Suppose the current running sum is:
 
 ```text
-Current Prefix Sum
+Current Prefix Sum = 10
 ```
 
-contains the sum from the beginning.
-
-If
+and
 
 ```text
-Current Prefix Sum - Previous Prefix Sum = k
+k = 4
 ```
 
-then the elements between those two prefix sums form a valid subarray.
+We need:
 
-The HashMap lets us quickly check whether the required previous prefix sum has already appeared.
+```text
+Previous Prefix Sum = 6
+```
+
+because
+
+```text
+10 - 6 = 4
+```
+
+If we've already seen prefix sum `6`, then a valid subarray exists.
+
+The HashMap lets us find it in **O(1)** time.
 
 ---
 
@@ -335,7 +362,7 @@ The HashMap lets us quickly check whether the required previous prefix sum has a
 O(n)
 ```
 
-Each element is processed exactly once.
+Each element is visited exactly once.
 
 HashMap lookup and insertion take average **O(1)** time.
 
@@ -370,7 +397,15 @@ prefix_sum += i
 
 ---
 
-### Dictionary Lookup
+### Find Required Prefix Sum
+
+```python
+ans = prefix_sum - k
+```
+
+---
+
+### HashMap Lookup
 
 ```python
 if ans in hash_map:
@@ -378,7 +413,7 @@ if ans in hash_map:
 
 ---
 
-### Frequency Update
+### Update Frequency
 
 ```python
 if prefix_sum in hash_map:
@@ -393,13 +428,14 @@ else:
 
 - Brute force takes **O(n²)**.
 - Maintain a **running prefix sum**.
-- Use the relation:
+- Instead of searching for subarrays, search for a **previous prefix sum**.
+- Use:
 
 ```text
 Current Prefix Sum - Previous Prefix Sum = k
 ```
 
-- Store **frequencies** of prefix sums, not just their existence.
+- Store **frequencies** of prefix sums in a HashMap.
 - Initialize:
 
 ```python
