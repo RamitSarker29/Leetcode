@@ -1,13 +1,14 @@
 class Solution:
     def findMissingElements(self, nums: List[int]) -> List[int]:
-        nums.sort()
+        hash_map={}
         res=[]
-        i,j=0,1
-        while j<len(nums):
-            while nums[j]-nums[i]!=1:
-                res.append(nums[i]+1)
-                nums[i]=nums[i]+1
-            i+=1
-            j+=1
+        for i in range(len(nums)):
+            if nums[i] not in hash_map:
+                hash_map[nums[i]]=1
+        min_num=min(nums)
+        max_num=max(nums)
+        while min_num!=max_num:
+            if min_num +1 not in hash_map:
+                res.append(min_num + 1)
+            min_num+=1
         return res
-        
