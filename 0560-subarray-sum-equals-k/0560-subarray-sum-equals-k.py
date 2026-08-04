@@ -1,16 +1,15 @@
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
-        prefix_sum=0
         hash_map={0:1}
-        res=0
+        count=0
+        sum=0
         for i in nums:
-            prefix_sum+=i
-            ans=prefix_sum-k
-            if ans in hash_map:
-                res+=hash_map[ans]
-            if prefix_sum in hash_map:
-                hash_map[prefix_sum]+=1
+            sum+=i
+            need=sum-k
+            if need in hash_map:
+                count+=hash_map[need]
+            if sum in hash_map:
+                hash_map[sum]+=1
             else:
-                hash_map[prefix_sum]=1
-        return res
-        
+                hash_map[sum]=1
+        return count
