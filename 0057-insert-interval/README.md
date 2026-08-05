@@ -2,7 +2,7 @@
 
 ## Problem
 
-You are given a list of **non-overlapping intervals** sorted in ascending order of their starting points.
+You are given a list of **non-overlapping intervals** sorted in ascending order by their starting values.
 
 You are also given a new interval.
 
@@ -23,6 +23,7 @@ Return the updated list.
 
 ```text
 intervals = [[1,3],[6,9]]
+
 newInterval = [2,5]
 ```
 
@@ -70,7 +71,7 @@ newInterval = [4,8]
 [8,10]
 ```
 
-All of them merge into:
+After merging, they become:
 
 ```text
 [3,10]
@@ -80,126 +81,92 @@ All of them merge into:
 
 # Intuition
 
-One way to solve this problem is:
+The intervals are already:
 
-1. Insert the new interval into the list.
-2. Sort all intervals.
-3. Reuse the **Merge Intervals** algorithm to merge any overlapping intervals.
+- Sorted
+- Non-overlapping
 
-Although the original intervals are already sorted, this approach is simple because it builds directly on the solution to **LeetCode 56 - Merge Intervals**.
+So sorting again is unnecessary.
+
+Instead, traverse the array only once.
+
+Each interval will belong to one of three cases:
+
+1. Completely before `newInterval`
+2. Overlapping `newInterval`
+3. Completely after `newInterval`
 
 ---
 
 # Approach
 
-### Step 1
+### Case 1: Interval is before `newInterval`
 
-Create a new list.
+If the current interval ends before `newInterval` starts,
 
-Traverse every interval.
+they cannot overlap.
 
-When the correct position is found, insert `newInterval`.
+```python
+intervals[i][1] < newInterval[0]
+```
+
+Simply add the interval to the answer.
+
+```python
+res.append(intervals[i])
+```
+
+---
+
+### Case 2: Interval overlaps `newInterval`
+
+If the current interval starts before or at the end of `newInterval`,
+
+they overlap.
+
+```python
+intervals[i][0] <= newInterval[1]
+```
+
+Merge them by expanding `newInterval`.
+
+Start:
+
+```python
+newInterval[0] = min(newInterval[0], intervals[i][0])
+```
+
+End:
+
+```python
+newInterval[1] = max(newInterval[1], intervals[i][1])
+```
+
+Continue merging until there are no more overlapping intervals.
+
+---
+
+### Case 3: Interval is after `newInterval`
+
+Once all overlapping intervals are merged,
+
+append the merged interval.
 
 ```python
 res.append(newInterval)
 ```
 
----
-
-### Step 2
-
-If the new interval was never inserted (it belongs at the end),
-
-append it after the loop.
-
-```python
-if not inserted:
-    res.append(newInterval)
-```
-
----
-
-### Step 3
-
-Sort all intervals.
-
-```python
-res.sort()
-```
-
-Now the intervals are ordered by their starting values.
-
----
-
-### Step 4
-
-Use the Merge Intervals algorithm.
-
-Keep one current interval.
-
-```python
-start1, end1 = res[0]
-```
-
-Traverse the remaining intervals.
-
----
-
-### Step 5
-
-If two intervals overlap,
-
-```python
-if end1 >= start2:
-```
-
-extend the current interval.
-
-```python
-end1 = max(end1, end2)
-```
-
----
-
-### Step 6
-
-Otherwise,
-
-store the completed interval.
-
-```python
-ans.append([start1, end1])
-```
-
-Start a new current interval.
-
-```python
-start1 = start2
-end1 = end2
-```
-
----
-
-### Step 7
-
-After finishing the loop,
-
-append the final merged interval.
-
-```python
-ans.append([start1, end1])
-```
+Then append the remaining intervals.
 
 ---
 
 # Algorithm
 
-1. Handle the empty array.
-2. Insert the new interval into a new list.
-3. If necessary, append the new interval at the end.
-4. Sort the list.
-5. Merge overlapping intervals.
-6. Return the merged intervals.
+1. Add all intervals completely before `newInterval`.
+2. Merge every overlapping interval into `newInterval`.
+3. Append the merged interval.
+4. Append the remaining intervals.
+5. Return the answer.
 
 ---
 
@@ -208,36 +175,30 @@ ans.append([start1, end1])
 ```python
 class Solution:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
-        if not intervals:
-            return [newInterval]
-
         res = []
-        ans = []
-        inserted = False
+        i = 0
+        n = len(intervals)
 
-        for start, end in intervals:
-            if not inserted and newInterval[0] <= start:
-                res.append(newInterval)
-                inserted = True
-            res.append([start, end])
+        # Add intervals before newInterval
+        while i < n and intervals[i][1] < newInterval[0]:
+            res.append(intervals[i])
+            i += 1
 
-        if not inserted:
-            res.append(newInterval)
+        # Merge overlapping intervals
+        while i < n and intervals[i][0] <= newInterval[1]:
+            newInterval[0] = min(newInterval[0], intervals[i][0])
+            newInterval[1] = max(newInterval[1], intervals[i][1])
+            i += 1
 
-        res.sort()
+        # Add merged interval
+        res.append(newInterval)
 
-        start1, end1 = res[0]
+        # Add remaining intervals
+        while i < n:
+            res.append(intervals[i])
+            i += 1
 
-        for start2, end2 in res[1:]:
-            if end1 >= start2:
-                end1 = max(end1, end2)
-            else:
-                ans.append([start1, end1])
-                start1, end1 = start2, end2
-
-        ans.append([start1, end1])
-
-        return ans
+        return res
 ```
 
 ---
@@ -247,133 +208,142 @@ class Solution:
 ### Example
 
 ```text
-intervals = [[1,3],[6,9]]
+intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]]
 
-newInterval = [2,5]
+newInterval = [4,8]
 ```
 
-### After inserting
-
-```text
-[[1,3],[2,5],[6,9]]
-```
-
-### After sorting
-
-```text
-[[1,3],[2,5],[6,9]]
-```
-
-### Merge
+### Step 1
 
 Current:
 
 ```text
-[1,3]
+[1,2]
 ```
 
-Next:
+Since
 
 ```text
-[2,5]
+2 < 4
 ```
 
-Overlap:
+it is completely before `newInterval`.
+
+Answer:
 
 ```text
-3 >= 2
+[[1,2]]
 ```
 
-Merged interval:
+---
+
+### Step 2
+
+Current:
 
 ```text
-[1,5]
+[3,5]
 ```
 
-Next interval:
+It overlaps.
+
+Merge:
 
 ```text
-[6,9]
+newInterval
+
+[3,8]
 ```
 
-No overlap.
+---
 
-Store:
+Current:
 
 ```text
-[1,5]
+[6,7]
 ```
 
-Append remaining interval:
+Merge again:
 
 ```text
-[6,9]
+[3,8]
 ```
 
-Final Answer:
+(No change.)
+
+---
+
+Current:
 
 ```text
-[[1,5],[6,9]]
+[8,10]
+```
+
+Merge:
+
+```text
+[3,10]
+```
+
+---
+
+### Step 3
+
+Append the merged interval.
+
+```text
+[[1,2],[3,10]]
+```
+
+---
+
+### Step 4
+
+Append the remaining interval.
+
+```text
+[[1,2],[3,10],[12,16]]
 ```
 
 ---
 
 # Why Does This Work?
 
-After inserting and sorting,
+Since the intervals are already sorted,
 
-any overlapping intervals become adjacent.
+all intervals before `newInterval` appear first,
 
-The Merge Intervals algorithm then combines every overlapping pair into a single interval.
+all overlapping intervals appear together,
 
-Since every interval is processed once after sorting,
+and all remaining intervals appear afterwards.
 
-all overlapping intervals are merged correctly.
+Therefore, a single traversal is sufficient.
 
 ---
 
 # Time Complexity
 
-Insertion:
+Each interval is processed exactly once.
 
 ```text
 O(n)
-```
-
-Sorting:
-
-```text
-O(n log n)
-```
-
-Merging:
-
-```text
-O(n)
-```
-
-Overall:
-
-```text
-O(n log n)
 ```
 
 ---
 
 # Space Complexity
 
+The output list stores the answer.
+
 ```text
 O(n)
 ```
-
-Extra space is used for the result lists.
 
 ---
 
 # Concepts Used
 
 - Arrays
-- Sorting
 - Greedy
 - Interval Merging
 
@@ -381,18 +351,10 @@ Extra space is used for the result lists.
 
 # Python Features Used
 
-### Sort
+### Minimum
 
 ```python
-res.sort()
-```
-
----
-
-### List Unpacking
-
-```python
-start1, end1 = res[0]
+min(a, b)
 ```
 
 ---
@@ -400,7 +362,7 @@ start1, end1 = res[0]
 ### Maximum
 
 ```python
-end1 = max(end1, end2)
+max(a, b)
 ```
 
 ---
@@ -408,21 +370,22 @@ end1 = max(end1, end2)
 ### Append
 
 ```python
-res.append(newInterval)
+res.append(interval)
 ```
 
 ---
 
 # Key Takeaways
 
-- Insert the new interval into the list.
-- Sort the intervals.
-- Reuse the Merge Intervals algorithm.
-- Merge overlapping intervals by extending the current interval.
-- Append completed intervals to the answer.
-- Overall complexity is **O(n log n)** because of sorting.
-
-> **Note:** The optimal solution for this problem runs in **O(n)** because the input intervals are already sorted. This solution intentionally reuses the Merge Intervals approach, making it simpler to understand and implement while remaining correct.
+- The input intervals are already sorted.
+- No sorting is required.
+- Traverse the array only once.
+- Handle three cases:
+  - Before `newInterval`
+  - Overlapping `newInterval`
+  - After `newInterval`
+- Merge by expanding `newInterval`.
+- The solution runs in **O(n)** time, which is the optimal complexity.
 
 ---
 
