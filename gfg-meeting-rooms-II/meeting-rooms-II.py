@@ -3,7 +3,7 @@ class Solution:
         # code here
         
         room = 0
-        min_room = 0
+        max_room = 0
         i=0
         j=0
         start.sort()
@@ -18,6 +18,6 @@ class Solution:
             else:
                 room -=1
                 j+=1
-            min_room = max(room,min_room)
-        return min_room
+            max_room = max(room,min_room)
+        return max_room
 
