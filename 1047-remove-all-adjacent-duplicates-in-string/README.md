@@ -1,30 +1,401 @@
-<h2><a href="https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string">1128. Remove All Adjacent Duplicates In String</a></h2><h3>Easy</h3><hr><p>You are given a string <code>s</code> consisting of lowercase English letters. A <strong>duplicate removal</strong> consists of choosing two <strong>adjacent</strong> and <strong>equal</strong> letters and removing them.</p>
+# 1047. Remove All Adjacent Duplicates In String
 
-<p>We repeatedly make <strong>duplicate removals</strong> on <code>s</code> until we no longer can.</p>
+## Problem
 
-<p>Return <em>the final string after all such duplicate removals have been made</em>. It can be proven that the answer is <strong>unique</strong>.</p>
+You are given a string `s` consisting of lowercase English letters.
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+A **duplicate removal** consists of removing two **adjacent** and **equal** characters.
 
-<pre>
-<strong>Input:</strong> s = &quot;abbaca&quot;
-<strong>Output:</strong> &quot;ca&quot;
-<strong>Explanation:</strong> 
-For example, in &quot;abbaca&quot; we could remove &quot;bb&quot; since the letters are adjacent and equal, and this is the only possible move.  The result of this move is that the string is &quot;aaca&quot;, of which only &quot;aa&quot; is possible, so the final string is &quot;ca&quot;.
-</pre>
+Keep removing adjacent duplicates until no more duplicate pairs remain.
 
-<p><strong class="example">Example 2:</strong></p>
+Return the final string.
 
-<pre>
-<strong>Input:</strong> s = &quot;azxxzy&quot;
-<strong>Output:</strong> &quot;ay&quot;
-</pre>
+It is guaranteed that the answer is unique.
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+---
 
-<ul>
-	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> consists of lowercase English letters.</li>
-</ul>
+## Examples
+
+### Example 1
+
+**Input**
+
+```text
+s = "abbaca"
+```
+
+**Output**
+
+```text
+"ca"
+```
+
+**Explanation**
+
+```text
+abbaca
+
+Remove "bb"
+
+↓
+
+aaca
+
+Remove "aa"
+
+↓
+
+ca
+```
+
+No more adjacent duplicates remain.
+
+---
+
+### Example 2
+
+**Input**
+
+```text
+s = "azxxzy"
+```
+
+**Output**
+
+```text
+"ay"
+```
+
+**Explanation**
+
+```text
+azxxzy
+
+Remove "xx"
+
+↓
+
+azzy
+
+Remove "zz"
+
+↓
+
+ay
+```
+
+---
+
+# Intuition
+
+Whenever we encounter two adjacent equal characters,
+
+they cancel each other.
+
+A **stack** naturally simulates this process.
+
+- If the current character is different from the top of the stack, push it.
+- If it is the same as the top, remove the top (pop).
+
+After processing every character, the stack contains the final string.
+
+---
+
+# Approach
+
+### Step 1
+
+Create an empty stack.
+
+```python
+stack = []
+```
+
+---
+
+### Step 2
+
+Traverse every character of the string.
+
+```python
+for i in range(len(s)):
+```
+
+---
+
+### Step 3
+
+If the stack is not empty and the current character is equal to the top of the stack,
+
+remove the duplicate.
+
+```python
+if stack and stack[-1] == s[i]:
+    stack.pop()
+```
+
+---
+
+### Step 4
+
+Otherwise,
+
+push the current character onto the stack.
+
+```python
+stack.append(s[i])
+```
+
+---
+
+### Step 5
+
+The stack stores the remaining characters.
+
+Convert it back into a string.
+
+```python
+"".join(stack)
+```
+
+Return the result.
+
+---
+
+# Algorithm
+
+1. Create an empty stack.
+2. Traverse each character of the string.
+3. If the top of the stack matches the current character, pop it.
+4. Otherwise, push the current character.
+5. Convert the stack into a string and return it.
+
+---
+
+# Code
+
+```python
+class Solution:
+    def removeDuplicates(self, s: str) -> str:
+        stack = []
+
+        for i in range(len(s)):
+            if stack and stack[-1] == s[i]:
+                stack.pop()
+            else:
+                stack.append(s[i])
+
+        return "".join(stack)
+```
+
+---
+
+# Dry Run
+
+### Example
+
+```text
+s = "abbaca"
+```
+
+Initially
+
+```text
+stack = []
+```
+
+Read `'a'`
+
+```text
+[a]
+```
+
+Read `'b'`
+
+```text
+[a, b]
+```
+
+Read `'b'`
+
+Top is also `'b'`.
+
+Pop it.
+
+```text
+[a]
+```
+
+Read `'a'`
+
+Top is also `'a'`.
+
+Pop it.
+
+```text
+[]
+```
+
+Read `'c'`
+
+```text
+[c]
+```
+
+Read `'a'`
+
+```text
+[c, a]
+```
+
+Final answer:
+
+```text
+"ca"
+```
+
+---
+
+# Why Does This Work?
+
+The stack always stores the characters that have not been removed.
+
+Whenever two adjacent equal characters appear,
+
+the top of the stack already contains the previous character.
+
+If they are equal,
+
+removing the top effectively removes the adjacent duplicate pair.
+
+Since every character is processed exactly once,
+
+all duplicate removals happen automatically in the correct order.
+
+---
+
+# Time Complexity
+
+Each character is:
+
+- pushed at most once
+- popped at most once
+
+Traversal:
+
+```text
+O(n)
+```
+
+Joining the stack into a string:
+
+```text
+O(n)
+```
+
+Overall:
+
+```text
+O(n)
+```
+
+---
+
+# Space Complexity
+
+The stack may contain every character.
+
+Example:
+
+```text
+abcdef
+```
+
+No duplicates are removed.
+
+Therefore:
+
+```text
+O(n)
+```
+
+---
+
+# Concepts Used
+
+- Stack
+- Strings
+- Simulation
+
+---
+
+# Python Features Used
+
+### Create Stack
+
+```python
+stack = []
+```
+
+---
+
+### Push
+
+```python
+stack.append(ch)
+```
+
+---
+
+### Pop
+
+```python
+stack.pop()
+```
+
+---
+
+### Peek (Top Element)
+
+```python
+stack[-1]
+```
+
+---
+
+### Empty Stack Check
+
+```python
+if stack:
+```
+
+Equivalent to:
+
+```python
+if len(stack) > 0:
+```
+
+---
+
+### Join List into String
+
+```python
+"".join(stack)
+```
+
+---
+
+# Key Takeaways
+
+- Use a stack to simulate removing adjacent duplicates.
+- Push characters when they don't match the stack's top.
+- Pop the top when a duplicate is found.
+- Each character is pushed and popped at most once.
+- The algorithm runs in **O(n)** time with **O(n)** space.
+- This is the optimal solution.
+
+---
+
+## Author
+
+**Ramit Sarker**
