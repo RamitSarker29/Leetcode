@@ -76,6 +76,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0345-reverse-vowels-of-a-string](https://github.com/RamitSarker29/Leetcode/tree/master/0345-reverse-vowels-of-a-string) |
 | [0424-longest-repeating-character-replacement](https://github.com/RamitSarker29/Leetcode/tree/master/0424-longest-repeating-character-replacement) |
 | [0557-reverse-words-in-a-string-iii](https://github.com/RamitSarker29/Leetcode/tree/master/0557-reverse-words-in-a-string-iii) |
+| [1047-remove-all-adjacent-duplicates-in-string](https://github.com/RamitSarker29/Leetcode/tree/master/1047-remove-all-adjacent-duplicates-in-string) |
 | [1456-maximum-number-of-vowels-in-a-substring-of-given-length](https://github.com/RamitSarker29/Leetcode/tree/master/1456-maximum-number-of-vowels-in-a-substring-of-given-length) |
 | [2379-minimum-recolors-to-get-k-consecutive-black-blocks](https://github.com/RamitSarker29/Leetcode/tree/master/2379-minimum-recolors-to-get-k-consecutive-black-blocks) |
 | [3090-maximum-length-substring-with-two-occurrences](https://github.com/RamitSarker29/Leetcode/tree/master/3090-maximum-length-substring-with-two-occurrences) |
@@ -191,6 +192,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 |  |
 | ------- |
 | [0042-trapping-rain-water](https://github.com/RamitSarker29/Leetcode/tree/master/0042-trapping-rain-water) |
+| [1047-remove-all-adjacent-duplicates-in-string](https://github.com/RamitSarker29/Leetcode/tree/master/1047-remove-all-adjacent-duplicates-in-string) |
 ## Monotonic Stack
 |  |
 | ------- |
