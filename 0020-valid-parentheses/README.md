@@ -2,17 +2,17 @@
 
 ## Problem
 
-You are given a string `s` containing only the following characters:
+You are given a string `s` containing only the following brackets:
 
 ```text
 ( ) { } [ ]
 ```
 
-Determine whether the string is **valid**.
+Determine whether the string is valid.
 
-A string is valid if:
+A string is considered valid if:
 
-1. Every opening bracket has a matching closing bracket.
+1. Every opening bracket has a corresponding closing bracket.
 2. Brackets are closed in the correct order.
 3. Every closing bracket matches the most recent unmatched opening bracket.
 
@@ -104,14 +104,14 @@ False
 
 # Intuition
 
-A **stack** is perfect for matching brackets because it follows the **Last In, First Out (LIFO)** principle.
+Since brackets must be closed in the reverse order in which they are opened, a **stack** is the ideal data structure.
 
-- Whenever an opening bracket appears, push it onto the stack.
-- Whenever a closing bracket appears, it must match the opening bracket at the top of the stack.
-- If it matches, remove (pop) the opening bracket.
+- Push every opening bracket.
+- When a closing bracket appears, compare it with the top of the stack.
+- If they match, remove the opening bracket.
 - Otherwise, the string is invalid.
 
-At the end, if the stack is empty, every opening bracket has been matched.
+At the end, the stack should be empty.
 
 ---
 
@@ -132,7 +132,7 @@ stack = []
 Traverse every character in the string.
 
 ```python
-for ch in s:
+for i in s:
 ```
 
 ---
@@ -144,8 +144,8 @@ If the current character is an opening bracket,
 push it onto the stack.
 
 ```python
-if ch in "([{":
-    stack.append(ch)
+if i in "([{":
+    stack.append(i)
 ```
 
 ---
@@ -161,28 +161,40 @@ if not stack:
     return False
 ```
 
-An empty stack means there is no matching opening bracket.
+If the stack is empty, there is no opening bracket to match.
 
 ---
 
 ### Step 5
 
-Compare the closing bracket with the top of the stack.
+Check whether the current closing bracket matches the opening bracket on top of the stack.
 
-For example,
+For `)`
 
 ```python
-if ch == ')' and stack[-1] != '(':
+if i == ')' and stack[-1] != '(':
     return False
 ```
 
-Do the same for `{}` and `[]`.
+For `}`
+
+```python
+if i == '}' and stack[-1] != '{':
+    return False
+```
+
+For `]`
+
+```python
+if i == ']' and stack[-1] != '[':
+    return False
+```
 
 ---
 
 ### Step 6
 
-If they match,
+If the brackets match,
 
 remove the opening bracket.
 
@@ -202,20 +214,20 @@ the stack should be empty.
 return not stack
 ```
 
-If it is empty, the string is valid.
+If the stack is empty, every opening bracket has been matched.
 
 ---
 
 # Algorithm
 
 1. Create an empty stack.
-2. Traverse each character.
-3. Push opening brackets onto the stack.
-4. For every closing bracket:
-   - If the stack is empty, return `False`.
-   - If the top of the stack does not match, return `False`.
-   - Otherwise, pop the stack.
-5. Return `True` if the stack is empty, otherwise `False`.
+2. Traverse every character.
+3. Push opening brackets.
+4. If a closing bracket is found:
+   - Check if the stack is empty.
+   - Verify that it matches the top of the stack.
+   - Pop the matching opening bracket.
+5. Return whether the stack is empty.
 
 ---
 
@@ -279,7 +291,7 @@ stack = ['(', '[']
 
 Read `']'`
 
-Top of stack:
+Top of the stack:
 
 ```text
 [
@@ -297,7 +309,7 @@ stack = ['(']
 
 Read `')'`
 
-Top of stack:
+Top of the stack:
 
 ```text
 (
@@ -311,9 +323,7 @@ Pop.
 stack = []
 ```
 
-End of string.
-
-Stack is empty.
+The stack is empty.
 
 Return:
 
@@ -327,17 +337,11 @@ True
 
 The stack always stores unmatched opening brackets.
 
-Whenever a closing bracket appears,
+Whenever a closing bracket is encountered, it must match the opening bracket at the top of the stack.
 
-it must match the opening bracket on top of the stack.
+If it does not match, the string is invalid.
 
-If it does not,
-
-the order is incorrect and the string is invalid.
-
-If every opening bracket is matched,
-
-the stack becomes empty.
+If every opening bracket is matched correctly, the stack becomes empty by the end of the traversal.
 
 Therefore, the string is valid.
 
@@ -345,12 +349,14 @@ Therefore, the string is valid.
 
 # Time Complexity
 
-Each character is processed exactly once.
+Each character is processed once.
 
-Every bracket is:
+Each bracket is:
 
 - pushed at most once
 - popped at most once
+
+Overall:
 
 ```text
 O(n)
@@ -360,9 +366,7 @@ O(n)
 
 # Space Complexity
 
-In the worst case,
-
-every character is an opening bracket.
+In the worst case, every character is an opening bracket.
 
 Example:
 
@@ -370,7 +374,9 @@ Example:
 "((([[{{"
 ```
 
-The stack stores all characters.
+The stack stores all brackets.
+
+Overall:
 
 ```text
 O(n)
@@ -399,7 +405,7 @@ stack = []
 ### Push
 
 ```python
-stack.append(ch)
+stack.append(i)
 ```
 
 ---
@@ -431,10 +437,10 @@ if not stack:
 ### Membership Operator
 
 ```python
-if ch in "([{":
+if i in "([{":
 ```
 
-Checks whether the character is an opening bracket.
+Checks whether the current character is an opening bracket.
 
 ---
 
@@ -443,7 +449,7 @@ Checks whether the character is an opening bracket.
 - Use a stack to store opening brackets.
 - Push every opening bracket.
 - Match every closing bracket with the top of the stack.
-- Return `False` immediately if a mismatch occurs.
+- Return `False` immediately if a mismatch is found.
 - At the end, the stack must be empty.
 - The solution runs in **O(n)** time and **O(n)** space.
 - This is the optimal solution.
