@@ -11,9 +11,12 @@ class Solution:
             end = min (firstList[i][1],secondList[j][1])
             if start <= end:
                 res.append([start, end])
-            if end == firstList[i][1]:
+            if firstList[i][1] < secondList[j][1]:
                 i+=1
-            else:
+            elif firstList[i][1] > secondList[j][1]:
+                j+=1
+            else: 
+                i+=1
                 j+=1
         return res
             
