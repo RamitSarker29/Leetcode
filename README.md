@@ -66,6 +66,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0876-middle-of-the-linked-list](https://github.com/RamitSarker29/Leetcode/tree/master/0876-middle-of-the-linked-list) |
 | [0977-squares-of-a-sorted-array](https://github.com/RamitSarker29/Leetcode/tree/master/0977-squares-of-a-sorted-array) |
 | [0986-interval-list-intersections](https://github.com/RamitSarker29/Leetcode/tree/master/0986-interval-list-intersections) |
+| [3302-find-the-lexicographically-smallest-valid-sequence](https://github.com/RamitSarker29/Leetcode/tree/master/3302-find-the-lexicographically-smallest-valid-sequence) |
 | [3884-first-matching-character-from-both-ends](https://github.com/RamitSarker29/Leetcode/tree/master/3884-first-matching-character-from-both-ends) |
 | [3940-limit-occurrences-in-sorted-array](https://github.com/RamitSarker29/Leetcode/tree/master/3940-limit-occurrences-in-sorted-array) |
 ## String
@@ -81,6 +82,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [1456-maximum-number-of-vowels-in-a-substring-of-given-length](https://github.com/RamitSarker29/Leetcode/tree/master/1456-maximum-number-of-vowels-in-a-substring-of-given-length) |
 | [2379-minimum-recolors-to-get-k-consecutive-black-blocks](https://github.com/RamitSarker29/Leetcode/tree/master/2379-minimum-recolors-to-get-k-consecutive-black-blocks) |
 | [3090-maximum-length-substring-with-two-occurrences](https://github.com/RamitSarker29/Leetcode/tree/master/3090-maximum-length-substring-with-two-occurrences) |
+| [3302-find-the-lexicographically-smallest-valid-sequence](https://github.com/RamitSarker29/Leetcode/tree/master/3302-find-the-lexicographically-smallest-valid-sequence) |
 | [3884-first-matching-character-from-both-ends](https://github.com/RamitSarker29/Leetcode/tree/master/3884-first-matching-character-from-both-ends) |
 ## Hash Table
 |  |
@@ -117,6 +119,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0918-maximum-sum-circular-subarray](https://github.com/RamitSarker29/Leetcode/tree/master/0918-maximum-sum-circular-subarray) |
 | [1186-maximum-subarray-sum-with-one-deletion](https://github.com/RamitSarker29/Leetcode/tree/master/1186-maximum-subarray-sum-with-one-deletion) |
 | [1749-maximum-absolute-sum-of-any-subarray](https://github.com/RamitSarker29/Leetcode/tree/master/1749-maximum-absolute-sum-of-any-subarray) |
+| [3302-find-the-lexicographically-smallest-valid-sequence](https://github.com/RamitSarker29/Leetcode/tree/master/3302-find-the-lexicographically-smallest-valid-sequence) |
 ## Sorting
 |  |
 | ------- |
@@ -189,6 +192,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | ------- |
 | [0011-container-with-most-water](https://github.com/RamitSarker29/Leetcode/tree/master/0011-container-with-most-water) |
 | [0435-non-overlapping-intervals](https://github.com/RamitSarker29/Leetcode/tree/master/0435-non-overlapping-intervals) |
+| [3302-find-the-lexicographically-smallest-valid-sequence](https://github.com/RamitSarker29/Leetcode/tree/master/3302-find-the-lexicographically-smallest-valid-sequence) |
 ## Stack
 |  |
 | ------- |
