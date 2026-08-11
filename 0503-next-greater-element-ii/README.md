@@ -1,4 +1,3 @@
-````markdown
 # 503. Next Greater Element II
 
 ## Problem
@@ -21,7 +20,7 @@ If no greater element exists, return `-1`.
 
 ```text
 nums = [1,2,1]
-````
+```
 
 **Output**
 
@@ -29,11 +28,11 @@ nums = [1,2,1]
 [2,-1,2]
 ```
 
-Explanation:
+**Explanation**
 
-* First `1` → next greater is `2`
+* First `1` → next greater element is `2`
 * `2` → no greater element exists → `-1`
-* Second `1` → searching circularly → `2`
+* Second `1` → searching circularly, the next greater element is `2`
 
 ---
 
@@ -55,30 +54,35 @@ nums = [1,2,3,4,3]
 
 # Approach
 
-The array is **circular**, so an element near the end may need to search from the beginning.
+The main difficulty is that the array is **circular**.
 
 For example:
 
 ```text
-[1,2,1]
+nums = [1,2,1]
 ```
 
-The last `1` needs to look past the end:
+For the last `1`, after reaching the end of the array, we need to continue searching from the beginning:
 
 ```text
-1 → 1 → 2
-        ↑
+[1, 2, 1]
+       ↓
+       1 → 2
 ```
 
-To handle this, we can conceptually make the array twice as long:
+A simple way to handle this is to **traverse the array twice**.
+
+Conceptually:
 
 ```text
 nums = [1,2,1]
 
-nums2 = [1,2,1,1,2,1]
+nums + nums
+     ↓
+[1,2,1,1,2,1]
 ```
 
-Now the circular array behaves like a normal linear array.
+The second copy allows elements near the end of the original array to find a greater element from the beginning.
 
 ---
 
@@ -86,41 +90,45 @@ Now the circular array behaves like a normal linear array.
 
 We use a **monotonic decreasing stack**.
 
-The stack stores **indices of elements that are still waiting for a greater element**.
+The stack stores **indices** of elements that are still waiting for their next greater element.
 
-When the current value is greater than the value at the top of the stack:
+For every current element:
 
 ```python
-nums2[i] > nums2[stack[-1]]
+while stack and nums[stack[-1]] < nums2[i]:
 ```
 
-we have found the next greater element for that index.
+If the current value is greater than the value represented by the index at the top of the stack, then we have found the next greater element.
 
-We then:
+We:
 
-1. Pop the previous index.
+1. Pop the index.
 2. Store the current value as its answer.
-3. Continue checking the stack.
+3. Continue checking the remaining stack.
 
 ---
 
 # Why Store Indices?
 
-We need to know **where to put the answer**.
+We store indices instead of values because we need to know **where to place the answer**.
 
-Suppose:
+For example:
 
 ```text
 nums = [1,2,1]
 ```
 
-and the stack contains:
+Suppose:
 
 ```text
-[0]
+stack = [0]
 ```
 
-This means index `0` (`value = 1`) is waiting.
+Index `0` represents the value:
+
+```text
+nums[0] = 1
+```
 
 When `2` arrives:
 
@@ -134,32 +142,36 @@ we pop index `0` and set:
 res[0] = 2
 ```
 
-So the stack stores indices, while the comparison uses the corresponding values.
+So:
+
+* **Stack → stores indices**
+* **Comparison → uses values**
+* **Result → uses indices**
 
 ---
 
 # Handling the Circular Array
 
-We traverse:
+We create:
 
 ```python
-nums + nums
+nums2 = nums + nums
 ```
 
-but we only push indices from the **first copy** into the stack.
+and traverse all `2n` elements.
 
-Why?
-
-The second copy exists only to give the original elements a chance to find a greater element after wrapping around.
-
-Therefore:
+However, we only push indices from the **first copy**:
 
 ```python
 if i < len(nums):
     stack.append(i)
 ```
 
-The second half helps resolve the original indices but doesn't add new elements that need answers.
+Why?
+
+The second copy is only used to help the original elements find their next greater elements after wrapping around.
+
+We don't want the duplicated elements to become new elements that require answers.
 
 ---
 
@@ -167,13 +179,14 @@ The second half helps resolve the original indices but doesn't add new elements 
 
 1. Create a result array filled with `-1`.
 2. Create an empty stack.
-3. Traverse `nums + nums`.
-4. While the stack isn't empty and the current value is greater than the value at the stack top:
+3. Create a doubled array using `nums + nums`.
+4. Traverse the doubled array.
+5. While the stack is not empty and the current value is greater than the value at the stack top:
 
-   * Pop the previous index.
+   * Pop the index.
    * Set its answer to the current value.
-5. Only push indices from the original array.
-6. Return `res`.
+6. Push the index only if it belongs to the original array.
+7. Return the result.
 
 ---
 
@@ -213,7 +226,7 @@ Doubled array:
 nums2 = [1,2,1,1,2,1]
 ```
 
-Initial:
+Initial state:
 
 ```text
 stack = []
@@ -222,71 +235,127 @@ res = [-1,-1,-1]
 
 ### Index 0 → `1`
 
-Push index `0`:
+Stack is empty, so push index `0`:
 
 ```text
 stack = [0]
 ```
 
+---
+
 ### Index 1 → `2`
 
-`2 > 1`, so index `0` gets:
+Current value:
+
+```text
+2
+```
+
+Top of stack:
+
+```text
+nums[0] = 1
+```
+
+Since:
+
+```text
+2 > 1
+```
+
+index `0` has found its next greater element.
 
 ```text
 res[0] = 2
 ```
 
-Stack becomes empty.
+Pop index `0`:
 
-Push index `1`:
+```text
+stack = []
+```
+
+Now push index `1`:
 
 ```text
 stack = [1]
 ```
 
+---
+
 ### Index 2 → `1`
 
-`1` is not greater than `2`.
+Compare:
 
-Push index `2`:
+```text
+1 > 2
+```
+
+False.
+
+So push index `2`:
 
 ```text
 stack = [1,2]
 ```
 
+---
+
 ### Index 3 → `1`
 
-This is the beginning of the second copy.
+This belongs to the **second copy**.
 
-`1` is not greater than the top value `1`.
+The current value is not greater than the value at index `2`:
 
-We don't push index `3` because it belongs to the duplicated half.
+```text
+1 > 1
+```
+
+False.
+
+We also don't push index `3` because:
+
+```text
+3 >= len(nums)
+```
+
+---
 
 ### Index 4 → `2`
 
 Now:
 
 ```text
+2 > nums[2]
 2 > 1
 ```
 
-So:
+Therefore:
 
 ```text
 res[2] = 2
 ```
 
-Pop index `2`.
-
-Then:
+Pop index `2`:
 
 ```text
+stack = [1]
+```
+
+Now compare with index `1`:
+
+```text
+2 > nums[1]
 2 > 2
 ```
 
-is false, so index `1` remains unresolved.
+False.
 
-Final:
+So index `1` remains unresolved.
+
+---
+
+### Final Result
 
 ```text
 res = [2,-1,2]
@@ -296,13 +365,15 @@ res = [2,-1,2]
 
 # Why Does It Work?
 
-Each original element is placed into the stack and waits for its next greater element.
+Every original element is placed into the stack and waits for a greater element.
 
-The first copy handles elements normally.
+The first traversal handles elements in their normal order.
 
-The second copy allows elements near the end to search from the beginning, which is exactly what circular traversal requires.
+The second traversal allows elements near the end of the array to continue searching from the beginning, which simulates circular traversal.
 
-If an element is never popped, no greater element exists anywhere in the circular array, so its answer correctly remains:
+When a greater element is found, the waiting index is popped and its answer is recorded.
+
+If an index is never popped, it means there is no strictly greater element anywhere in the circular array. Its answer therefore correctly remains:
 
 ```text
 -1
@@ -312,13 +383,20 @@ If an element is never popped, no greater element exists anywhere in the circula
 
 # Complexity
 
-Let `n = len(nums)`.
+Let:
+
+```text
+n = len(nums)
+```
 
 ### Time Complexity
 
 We traverse `2n` elements.
 
-Each original index is pushed once and popped at most once.
+Although the loop runs twice over the array, every original index is:
+
+* pushed at most once
+* popped at most once
 
 Therefore:
 
@@ -328,9 +406,11 @@ O(n)
 
 ### Space Complexity
 
-The stack can contain up to `n` indices, and the result array contains `n` elements.
+The stack can contain up to `n` indices.
 
-The temporary doubled array `nums2` also takes `O(n)` space.
+The result array requires `O(n)` space.
+
+The doubled array `nums2` also requires `O(n)` space.
 
 Therefore:
 
@@ -346,15 +426,18 @@ extra space.
 
 * This is a **Next Greater Element** problem.
 * Use a **monotonic decreasing stack**.
-* Store **indices** in the stack.
-* Compare the corresponding **values**.
-* Double the array to handle circular traversal.
+* Store **indices**, not values.
+* Compare the values represented by those indices.
+* Use `nums + nums` to simulate circular traversal.
 * Only push indices from the original array.
 * Initialize the result with `-1`.
-* If an index is never popped, it has no greater element.
-* Complexity: **O(n) time, O(n) space**.
+* An index that is never popped has no greater element.
+* Each element is pushed and popped at most once.
+* **Time Complexity:** `O(n)`
+* **Space Complexity:** `O(n)`
 
-```
-```
-**Author**
+---
+
+## Author
+
 **Ramit Sarker**
