@@ -2,24 +2,14 @@
 
 ## Problem
 
-You are given an `m x n` integer matrix `matrix` with the following properties:
+Given an `m x n` matrix where:
 
 * Each row is sorted in **non-decreasing order**.
 * The first element of each row is greater than the last element of the previous row.
 
-Given an integer `target`, return:
+Return `true` if `target` exists in the matrix, otherwise return `false`.
 
-```text
-true
-```
-
-if the target exists in the matrix, otherwise return:
-
-```text
-false
-```
-
-The solution must have a time complexity of:
+The solution must run in:
 
 ```text
 O(log(m * n))
@@ -49,11 +39,9 @@ true
 
 **Explanation**
 
-`3` exists in the matrix at row `0`, column `1`.
+`3` exists at row `0`, column `1`.
 
-![Image](https://images.openai.com/static-rsc-4/t-0vCUIH-xNjXQpbfDMSCDGkw4qF4QHAcbhgXY2KVemD3EcyQ8aLh380i58pqRVpqSAtsTO7Es_ipqU1jjOcaqH0eF4Rn_mHedC5h1MLZMlJ19IwBPpwmoiz1E80XSAtwxpn3SgiIUMZW5d_M8_dOSvxKXthLEGnOQoTIHBJrvy90DkLwLfGZZ1FMXOIxxkD?purpose=fullsize)
-
-![Image](https://images.openai.com/static-rsc-4/BfPhAllqhIJwZmBnXbFQ-omTWgTqyARADF7uvBkXXLqL-segqRHoUw9QdFfbknimefwVSetvRbeHIn7Wr4_zJdaWvK16QeCM6IdFUo-wAzXIKZLydJ738P_QffVbE7ZI60Cci2Z4vy5XUTDq8dmIwMt2LQ6CDkPwbXOwrFtLsvHXmtUzTb4-74wcLbNoFDjZ?purpose=fullsize)
+![Example 1](https://assets.leetcode.com/uploads/2020/10/05/mat.jpg)
 
 ---
 
@@ -79,30 +67,37 @@ false
 
 `13` does not exist in the matrix.
 
-![Image](https://images.openai.com/static-rsc-4/EVufEmO9JlDt2_7J_rpxfEstKbWCUajWUh1aYjwzcKy6qYr_zFQl0AvEPGdekd7l6sk4z1xZKbXndxf8AU_HKmpDnEtZrLSaWFSL-JfTy_yygaWtImZNHqh2ERXrFOegjfTvmE6cO7NF3sdloUinC5owaYhpYuYSs6JtacIr_olmfZB_KZZ-KPrLnOWSpleP?purpose=fullsize)
-
-![Image](https://images.openai.com/static-rsc-4/Kp6SK28bFuCOE8j7mnrU6O5ZjJOVIJpVi_eut-lj5lZWIxc4H6CsdiJEktx2HW0-BkloYxK-VOGt46OoiCzHP-YmMnhQcxTqnajTGpt3PQDdXybWPlO3SzyxH7hHSXKVgJc86GAQ4TG9GN-rmdd-c8OgrjWVpgtABdQ1Ii-qjM8sx14n6nl4UjBSeysqJVqd?purpose=fullsize)
+![Example 2](https://assets.leetcode.com/uploads/2020/10/05/mat2.jpg)
 
 ---
 
 # Approach
 
-We can solve this problem using **two Binary Searches**:
+We can solve this problem using **two Binary Searches**.
 
-1. Find the correct row where the target could exist.
-2. Perform Binary Search inside that row.
+### Step 1: Find the possible row
 
-The key observation is that every row has a clear range of values.
+We perform Binary Search on the rows.
 
-For example:
+For every middle row, we look at its **last element**:
+
+```python
+matrix[mid][-1]
+```
+
+Why?
+
+Because the rows are arranged like:
 
 ```text
-[1,  3,  5,  7]
+[1, 3, 5, 7]
 [10, 11, 16, 20]
 [23, 30, 34, 60]
 ```
 
-The ranges are:
+So each row represents a continuous range of values.
+
+For example:
 
 ```text
 Row 0 → 1 to 7
@@ -110,137 +105,49 @@ Row 1 → 10 to 20
 Row 2 → 23 to 60
 ```
 
-Because:
-
-```text
-first element of next row
->
-last element of previous row
-```
-
-we can determine which row could contain the target using Binary Search.
-
 ---
 
-# Step 1: Find the Correct Row
-
-We perform Binary Search on the rows.
-
-Instead of checking the first element of each row, we compare the target with the **last element** of the current row:
-
-```python
-matrix[mid][-1]
-```
-
-Why the last element?
+## Finding the Row
 
 Suppose:
 
 ```text
-Row 0 → [1,3,5,7]
-Row 1 → [10,11,16,20]
-Row 2 → [23,30,34,60]
+target = 13
 ```
 
 If:
 
-```text
+```python
 matrix[mid][-1] < target
 ```
 
 then the target cannot be in that row or any row before it.
 
-So we move right:
+So:
 
 ```python
 low = mid + 1
 ```
 
----
-
-# Case 1: Last Element < Target
-
-Suppose:
-
-```text
-target = 13
-```
-
-and the current row is:
-
-```text
-[1,3,5,7]
-```
-
-The last element is:
-
-```text
-7
-```
-
-Since:
-
-```text
-7 < 13
-```
-
-the target cannot be in this row.
-
-It also cannot be in any previous row.
-
-Therefore:
+If:
 
 ```python
-low = mid + 1
+matrix[mid][-1] > target
 ```
 
----
+then this row **might** contain the target.
 
-# Case 2: Last Element > Target
-
-Suppose:
-
-```text
-target = 13
-```
-
-and the current row is:
-
-```text
-[23,30,34,60]
-```
-
-The last element is:
-
-```text
-60
-```
-
-Since:
-
-```text
-60 > 13
-```
-
-the target could potentially be in this row or an earlier row.
-
-So we store this row as a candidate:
+We store it:
 
 ```python
 row = mid
 ```
 
-and continue searching left:
+and search toward the left:
 
 ```python
 high = mid - 1
 ```
-
-This allows us to find the **first row whose last element is greater than the target**.
-
----
-
-# Case 3: Last Element == Target
 
 If:
 
@@ -248,109 +155,63 @@ If:
 matrix[mid][-1] == target
 ```
 
-then we have directly found the target.
-
-So we can immediately return:
+we have found the target directly:
 
 ```python
-True
-```
-
----
-
-# Why Store `row`?
-
-Suppose:
-
-```text
-matrix =
-[1,3,5,7]
-[10,11,16,20]
-[23,30,34,60]
-
-target = 13
-```
-
-The correct row is:
-
-```text
-[10,11,16,20]
-```
-
-because:
-
-```text
-10 <= 13 <= 20
-```
-
-Our first Binary Search finds this row and stores:
-
-```python
-row = 1
-```
-
-Then we perform another Binary Search inside:
-
-```text
-[10,11,16,20]
+return True
 ```
 
 ---
 
 # Step 2: Binary Search Inside the Row
 
-Once we have found the possible row, we perform normal Binary Search.
+Once we find the possible row, we perform a normal Binary Search inside it.
 
-Initialize:
+For example:
 
-```python
-low = 0
-high = len(matrix[row]) - 1
+```text
+[10,11,16,20]
 ```
 
-Then calculate:
+For every `mid`:
+
+### If:
 
 ```python
-mid = (low + high) // 2
+matrix[row][mid] < target
 ```
 
-Compare:
-
-```python
-matrix[row][mid]
-```
-
-with the target.
-
----
-
-# Normal Binary Search Logic
-
-### If value < target
-
-Move right:
+search right:
 
 ```python
 low = mid + 1
 ```
 
-### If value > target
+### If:
 
-Move left:
+```python
+matrix[row][mid] > target
+```
+
+search left:
 
 ```python
 high = mid - 1
 ```
 
-### If value == target
+### If:
 
-Return:
+```python
+matrix[row][mid] == target
+```
+
+return:
 
 ```python
 True
 ```
 
-If the search finishes without finding it:
+If the search finishes without finding the target, return:
 
 ```python
 False
@@ -360,25 +221,25 @@ False
 
 # Algorithm
 
-### Find the Row
+1. Initialize:
 
-1. Set `low = 0`.
-2. Set `high = len(matrix) - 1`.
-3. Set `row = -1`.
-4. Perform Binary Search on the rows.
-5. Compare `matrix[mid][-1]` with `target`.
-6. If the last element is smaller, move right.
-7. If the last element is greater, save the row and move left.
-8. If equal, return `True`.
+   ```python
+   low = 0
+   high = len(matrix) - 1
+   row = -1
+   ```
 
-### Search Inside the Row
+2. Binary Search through the rows.
 
-1. If `row == -1`, return `False`.
-2. Set `low = 0`.
-3. Set `high = len(matrix[row]) - 1`.
-4. Perform normal Binary Search.
-5. Return `True` if found.
-6. Otherwise return `False`.
+3. Compare the **last element** of the middle row with `target`.
+
+4. Find the row that could contain the target.
+
+5. If no such row exists, return `False`.
+
+6. Perform Binary Search inside the selected row.
+
+7. Return `True` if found, otherwise `False`.
 
 ---
 
@@ -410,7 +271,7 @@ class Solution:
         if row == -1:
             return False
 
-        # Binary search inside the row
+        # Binary Search inside the row
         low = 0
         high = len(matrix[row]) - 1
 
@@ -437,19 +298,12 @@ class Solution:
 Consider:
 
 ```text
-matrix =
-[
-    [1,3,5,7],
-    [10,11,16,20],
-    [23,30,34,60]
-]
+matrix = [[1,3,5,7],
+          [10,11,16,20],
+          [23,30,34,60]]
 
 target = 3
 ```
-
----
-
-## Step 1: Find the Row
 
 Initial:
 
@@ -459,14 +313,14 @@ high = 2
 row = -1
 ```
 
-### Iteration 1
+### First Binary Search
 
 ```text
 mid = (0 + 2) // 2
 mid = 1
 ```
 
-Current row:
+Row `1`:
 
 ```text
 [10,11,16,20]
@@ -478,44 +332,31 @@ Last element:
 20
 ```
 
-Compare:
+Since:
 
 ```text
 20 > 3
 ```
 
-So this row could contain the target.
+this row could contain the target.
 
-Store:
+So:
 
 ```text
 row = 1
-```
-
-Search left:
-
-```text
 high = 0
 ```
 
 ---
 
-### Iteration 2
-
-Now:
+### Next iteration
 
 ```text
-low = 0
-high = 0
-```
-
-Calculate:
-
-```text
+mid = (0 + 0) // 2
 mid = 0
 ```
 
-Current row:
+Row `0`:
 
 ```text
 [1,3,5,7]
@@ -527,22 +368,22 @@ Last element:
 7
 ```
 
-Compare:
+Since:
 
 ```text
 7 > 3
 ```
 
-So:
+we update:
 
 ```text
 row = 0
 high = -1
 ```
 
-The loop ends.
+The row search ends.
 
-We found:
+We have:
 
 ```text
 row = 0
@@ -550,7 +391,7 @@ row = 0
 
 ---
 
-# Step 2: Search Inside Row 0
+# Search Inside Row 0
 
 Row:
 
@@ -578,15 +419,13 @@ Value:
 matrix[0][1] = 3
 ```
 
-Compare:
+Since:
 
 ```text
-3 == 3
+3 == target
 ```
 
-Target found.
-
-Return:
+return:
 
 ```text
 True
@@ -602,114 +441,28 @@ Consider:
 target = 13
 ```
 
-The matrix is:
-
-```text
-[1,3,5,7]
-[10,11,16,20]
-[23,30,34,60]
-```
-
----
-
-## Find the Row
-
-Initial:
-
-```text
-low = 0
-high = 2
-```
-
-### Iteration 1
-
-```text
-mid = 1
-```
-
-Last element:
-
-```text
-20
-```
-
-Since:
-
-```text
-20 > 13
-```
-
-store:
-
-```text
-row = 1
-```
-
-and move left:
-
-```text
-high = 0
-```
-
-### Iteration 2
-
-```text
-mid = 0
-```
-
-Last element:
-
-```text
-7
-```
-
-Since:
-
-```text
-7 < 13
-```
-
-move right:
-
-```text
-low = 1
-```
-
-Now:
-
-```text
-low = 1
-high = 0
-```
-
-The row is:
-
-```text
-row = 1
-```
-
----
-
-## Search Row 1
-
-Row:
+The possible row is:
 
 ```text
 [10,11,16,20]
 ```
 
-Initial:
+because:
 
 ```text
-low = 0
-high = 3
+10 <= 13 <= 20
 ```
 
-### Iteration 1
+Now perform Binary Search:
 
 ```text
-mid = 1
-matrix[1][1] = 11
+[10,11,16,20]
+```
+
+Middle:
+
+```text
+11
 ```
 
 Since:
@@ -718,17 +471,12 @@ Since:
 11 < 13
 ```
 
-move right:
+move right.
+
+Now:
 
 ```text
-low = 2
-```
-
-### Iteration 2
-
-```text
-mid = 2
-matrix[1][2] = 16
+16
 ```
 
 Since:
@@ -737,24 +485,11 @@ Since:
 16 > 13
 ```
 
-move left:
+move left.
 
-```text
-high = 1
-```
+The search range becomes empty.
 
-Now:
-
-```text
-low = 2
-high = 1
-```
-
-The search ends.
-
-`13` was not found.
-
-Return:
+Therefore:
 
 ```text
 False
@@ -762,48 +497,38 @@ False
 
 ---
 
-# Why Does the Row Search Work?
+# Why Does It Work?
 
-Each row has a distinct range.
-
-For example:
+The matrix can effectively be viewed as one sorted sequence:
 
 ```text
-Row 0: 1  → 7
-Row 1: 10 → 20
-Row 2: 23 → 60
+[1,3,5,7,10,11,16,20,23,30,34,60]
 ```
 
-If:
+The special property of the matrix guarantees that every row continues directly after the previous row.
+
+Instead of performing one large Binary Search, the solution breaks the problem into:
 
 ```text
-last element of row < target
+Find Row
+   ↓
+Binary Search Row
 ```
 
-then the target must be in a later row.
+The first search determines where the target **could** be.
 
-If:
-
-```text
-last element of row >= target
-```
-
-then this row might contain the target, so we save it and search earlier rows.
-
-Therefore, the first Binary Search identifies the row whose range could contain the target.
+The second search determines whether the target actually exists there.
 
 ---
 
-# Visual Understanding
+# Why Use the Last Element of Each Row?
 
-Think of the matrix as a collection of sorted ranges:
+Suppose:
 
 ```text
-          Target
-             ↓
-[1, 3, 5, 7]        → 1 to 7
-[10,11,16,20]        → 10 to 20
-[23,30,34,60]        → 23 to 60
+Row 0 → [1,3,5,7]
+Row 1 → [10,11,16,20]
+Row 2 → [23,30,34,60]
 ```
 
 For:
@@ -812,57 +537,20 @@ For:
 target = 13
 ```
 
-we can immediately see:
+we can compare it with the row endings:
 
 ```text
-10 ≤ 13 ≤ 20
+7 < 13
+20 > 13
+60 > 13
 ```
 
-Therefore, only row `1` needs to be searched.
+The first row ending greater than the target identifies the row that could contain it.
 
-Binary Search finds this without checking every row.
-
----
-
-# Why Not Search the Entire Matrix Linearly?
-
-A straightforward approach would be:
+That's why we use:
 
 ```python
-for row in matrix:
-    for value in row:
-        if value == target:
-            return True
-```
-
-This could take:
-
-```text
-O(m * n)
-```
-
-time.
-
-But the matrix is sorted in a special way, so we can take advantage of that ordering.
-
-Our approach performs:
-
-```text
-Binary Search on rows
-        +
-Binary Search on columns
-```
-
-giving:
-
-```text
-O(log m + log n)
-```
-
-which is equivalent to:
-
-```text
-O(log(m * n))
+matrix[mid][-1]
 ```
 
 ---
@@ -876,17 +564,17 @@ m = number of rows
 n = number of columns
 ```
 
-### Finding the Row
+### First Binary Search
 
-Binary Search over `m` rows:
+Searching through the rows:
 
 ```text
 O(log m)
 ```
 
-### Searching Inside the Row
+### Second Binary Search
 
-Binary Search over `n` columns:
+Searching inside one row:
 
 ```text
 O(log n)
@@ -898,13 +586,7 @@ Therefore:
 O(log m + log n)
 ```
 
-Since:
-
-```text
-log m + log n = log(m * n)
-```
-
-the overall complexity is:
+which is equivalent to:
 
 ```text
 O(log(m * n))
@@ -912,9 +594,7 @@ O(log(m * n))
 
 ### Space Complexity
 
-Only a constant number of variables are used.
-
-Therefore:
+Only a few variables are used.
 
 ```text
 O(1)
@@ -922,132 +602,15 @@ O(1)
 
 ---
 
-# Important Edge Cases
-
-### Target Is the Last Element of a Row
-
-For example:
-
-```text
-target = 20
-```
-
-and:
-
-```text
-[10,11,16,20]
-```
-
-The row search detects:
-
-```python
-matrix[mid][-1] == target
-```
-
-and immediately returns:
-
-```text
-True
-```
-
----
-
-### Target Is the First Element of a Row
-
-For:
-
-```text
-target = 10
-```
-
-the correct row is:
-
-```text
-[10,11,16,20]
-```
-
-The second Binary Search finds it at index `0`.
-
----
-
-### Target Smaller Than Every Element
-
-For:
-
-```text
-target = 0
-```
-
-the first suitable row becomes row `0`.
-
-The second Binary Search fails, so:
-
-```text
-False
-```
-
-is returned.
-
----
-
-### Target Greater Than Every Element
-
-For:
-
-```text
-target = 100
-```
-
-every row's last element is smaller than the target.
-
-Eventually:
-
-```text
-row = -1
-```
-
-Therefore:
-
-```text
-False
-```
-
-is returned immediately.
-
----
-
 # Key Takeaways
 
-* The matrix has **sorted rows**.
-* Each row starts after the previous row ends.
-* Use Binary Search to find the **possible row**.
-* Compare the target with the **last element of each row**.
-* If:
-
-```python
-matrix[mid][-1] < target
-```
-
-move down:
-
-```python
-low = mid + 1
-```
-
-* If:
-
-```python
-matrix[mid][-1] > target
-```
-
-save the row and search upward:
-
-```python
-row = mid
-high = mid - 1
-```
-
-* Once the row is found, perform normal Binary Search inside it.
+* The matrix is sorted both **row-wise** and **across rows**.
+* Use Binary Search to find the possible row.
+* Compare `target` with the **last element** of each row.
+* Then perform another Binary Search inside that row.
+* If `matrix[mid][-1] < target` → move down.
+* If `matrix[mid][-1] > target` → store the row and move up.
+* If the last element equals the target → immediately return `True`.
 * **Time Complexity:** `O(log(m * n))`
 * **Space Complexity:** `O(1)`
 
