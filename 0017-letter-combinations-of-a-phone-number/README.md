@@ -6,7 +6,9 @@ Given a string containing digits from `2-9`, return **all possible letter combin
 
 Each digit corresponds to a set of letters, just like the buttons on a telephone keypad.
 
-![Telephone Keypad](https://assets.leetcode.com/uploads/2022/03/15/1200px-telephone-keypad2svg.png)
+<p>A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.</p>
+<img alt="" src="https://assets.leetcode.com/uploads/2022/03/15/1200px-telephone-keypad2svg.png" style="width: 300px; height: 243px;" />
+<p> </p>
 
 The mapping is:
 
