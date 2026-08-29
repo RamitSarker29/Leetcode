@@ -4,9 +4,9 @@
 
 Given a string containing digits from `2-9`, return **all possible letter combinations** that the number could represent.
 
-Each digit corresponds to a set of letters, just like the buttons on an old telephone keypad.
+Each digit corresponds to a set of letters, just like the buttons on a telephone keypad.
 
-
+![Telephone Keypad](https://assets.leetcode.com/uploads/2022/03/15/1200px-telephone-keypad2svg.png)
 
 The mapping is:
 
@@ -93,7 +93,7 @@ digits = "2"
 
 We use **Recursion + Backtracking**.
 
-The basic idea is:
+The main idea is:
 
 > For each digit, try every letter that belongs to that digit.
 
@@ -387,12 +387,7 @@ f
 
 ```text
 current = "a" + "d"
-```
-
-So:
-
-```text
-"ad"
+       = "ad"
 ```
 
 We call:
@@ -453,13 +448,7 @@ So after processing the `a` branch:
 
 ## Backtrack to `b`
 
-Now recursion goes back to:
-
-```text
-fun(0, "")
-```
-
-and chooses:
+Now recursion goes back and chooses:
 
 ```text
 b
@@ -471,12 +460,6 @@ We get:
 "bd"
 "be"
 "bf"
-```
-
-So:
-
-```text
-["ad","ae","af","bd","be","bf"]
 ```
 
 ---
@@ -497,7 +480,7 @@ We get:
 "cf"
 ```
 
-Final:
+Final result:
 
 ```text
 [
@@ -664,7 +647,7 @@ Then:
 fun(2, "ad")
 ```
 
-means we selected:
+means:
 
 ```text
 a → from digit 2
@@ -746,13 +729,13 @@ creates:
 "ad"
 ```
 
-The previous:
+while the previous call still has:
 
 ```text
 "a"
 ```
 
-remains unchanged.
+The original string is unchanged.
 
 So we don't need to manually remove the character afterward.
 
@@ -868,15 +851,13 @@ because digits `7` and `9` have four letters.
 
 Each combination has length `n`.
 
-Therefore:
-
 ### Time Complexity
 
 ```text
 O(4ⁿ × n)
 ```
 
-This includes the cost of constructing/storing each resulting string.
+This includes constructing and storing the resulting strings.
 
 ### Space Complexity
 
@@ -886,7 +867,7 @@ The recursion depth is:
 O(n)
 ```
 
-and the result contains up to:
+The result can contain up to:
 
 ```text
 O(4ⁿ × n)
@@ -894,7 +875,7 @@ O(4ⁿ × n)
 
 characters.
 
-So including the output:
+Therefore, including the output:
 
 ```text
 O(4ⁿ × n)
