@@ -1,4 +1,4 @@
-# 4245. Count Commas in Range
+# 3870. Count Commas in Range
 
 ## Problem
 
