@@ -94,6 +94,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0125-valid-palindrome](https://github.com/RamitSarker29/Leetcode/tree/master/0125-valid-palindrome) |
 | [0345-reverse-vowels-of-a-string](https://github.com/RamitSarker29/Leetcode/tree/master/0345-reverse-vowels-of-a-string) |
 | [0387-first-unique-character-in-a-string](https://github.com/RamitSarker29/Leetcode/tree/master/0387-first-unique-character-in-a-string) |
+| [0412-fizz-buzz](https://github.com/RamitSarker29/Leetcode/tree/master/0412-fizz-buzz) |
 | [0424-longest-repeating-character-replacement](https://github.com/RamitSarker29/Leetcode/tree/master/0424-longest-repeating-character-replacement) |
 | [0557-reverse-words-in-a-string-iii](https://github.com/RamitSarker29/Leetcode/tree/master/0557-reverse-words-in-a-string-iii) |
 | [0767-reorganize-string](https://github.com/RamitSarker29/Leetcode/tree/master/0767-reorganize-string) |
@@ -130,6 +131,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0066-plus-one](https://github.com/RamitSarker29/Leetcode/tree/master/0066-plus-one) |
 | [0070-climbing-stairs](https://github.com/RamitSarker29/Leetcode/tree/master/0070-climbing-stairs) |
 | [0202-happy-number](https://github.com/RamitSarker29/Leetcode/tree/master/0202-happy-number) |
+| [0412-fizz-buzz](https://github.com/RamitSarker29/Leetcode/tree/master/0412-fizz-buzz) |
 | [0509-fibonacci-number](https://github.com/RamitSarker29/Leetcode/tree/master/0509-fibonacci-number) |
 | [0877-stone-game](https://github.com/RamitSarker29/Leetcode/tree/master/0877-stone-game) |
 | [3345-smallest-divisible-digit-product-i](https://github.com/RamitSarker29/Leetcode/tree/master/3345-smallest-divisible-digit-product-i) |
@@ -386,4 +388,8 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | ------- |
 | [0235-lowest-common-ancestor-of-a-binary-search-tree](https://github.com/RamitSarker29/Leetcode/tree/master/0235-lowest-common-ancestor-of-a-binary-search-tree) |
 | [0700-search-in-a-binary-search-tree](https://github.com/RamitSarker29/Leetcode/tree/master/0700-search-in-a-binary-search-tree) |
+## Simulation
+|  |
+| ------- |
+| [0412-fizz-buzz](https://github.com/RamitSarker29/Leetcode/tree/master/0412-fizz-buzz) |
 <!---LeetCode Topics End-->
