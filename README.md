@@ -103,6 +103,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [2379-minimum-recolors-to-get-k-consecutive-black-blocks](https://github.com/RamitSarker29/Leetcode/tree/master/2379-minimum-recolors-to-get-k-consecutive-black-blocks) |
 | [3090-maximum-length-substring-with-two-occurrences](https://github.com/RamitSarker29/Leetcode/tree/master/3090-maximum-length-substring-with-two-occurrences) |
 | [3302-find-the-lexicographically-smallest-valid-sequence](https://github.com/RamitSarker29/Leetcode/tree/master/3302-find-the-lexicographically-smallest-valid-sequence) |
+| [3498-reverse-degree-of-a-string](https://github.com/RamitSarker29/Leetcode/tree/master/3498-reverse-degree-of-a-string) |
 | [3884-first-matching-character-from-both-ends](https://github.com/RamitSarker29/Leetcode/tree/master/3884-first-matching-character-from-both-ends) |
 ## Hash Table
 |  |
@@ -392,4 +393,5 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 |  |
 | ------- |
 | [0412-fizz-buzz](https://github.com/RamitSarker29/Leetcode/tree/master/0412-fizz-buzz) |
+| [3498-reverse-degree-of-a-string](https://github.com/RamitSarker29/Leetcode/tree/master/3498-reverse-degree-of-a-string) |
 <!---LeetCode Topics End-->
