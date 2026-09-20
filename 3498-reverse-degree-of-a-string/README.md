@@ -1,4 +1,4 @@
-# 3811 - Reverse Degree of a String
+# 3498 - Reverse Degree of a String
 
 ## Problem
 
