@@ -1,45 +1,87 @@
-<h2><a href="https://leetcode.com/problems/employees-earning-more-than-their-managers">181. Employees Earning More Than Their Managers</a></h2><h3>Easy</h3><hr><p>Table: <code>Employee</code></p>
+# 181. Employees Earning More Than Their Managers
 
-<pre>
-+-------------+---------+
-| Column Name | Type    |
-+-------------+---------+
-| id          | int     |
-| name        | varchar |
-| salary      | int     |
-| managerId   | int     |
-+-------------+---------+
-id is the primary key (column with unique values) for this table.
-Each row of this table indicates the ID of an employee, their name, salary, and the ID of their manager.
-</pre>
+**Difficulty:** Easy
 
-<p>&nbsp;</p>
+## Problem
 
-<p>Write a solution&nbsp;to find the employees who earn more than their managers.</p>
+Write a solution to find the employees who earn more than their managers.
 
-<p>Return the result table in <strong>any order</strong>.</p>
+Each employee has:
+- `id` — Employee's unique ID
+- `name` — Employee's name
+- `salary` — Employee's salary
+- `managerId` — ID of the employee's manager
 
-<p>The result format is in the following example.</p>
+Return the names of employees whose salary is greater than their manager's salary.
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+## Approach
 
-<pre>
-<strong>Input:</strong> 
-Employee table:
-+----+-------+--------+-----------+
-| id | name  | salary | managerId |
-+----+-------+--------+-----------+
-| 1  | Joe   | 70000  | 3         |
-| 2  | Henry | 80000  | 4         |
-| 3  | Sam   | 60000  | Null      |
-| 4  | Max   | 90000  | Null      |
-+----+-------+--------+-----------+
-<strong>Output:</strong> 
-+----------+
-| Employee |
-+----------+
-| Joe      |
-+----------+
-<strong>Explanation:</strong> Joe is the only employee who earns more than his manager.
-</pre>
+This problem can be solved using a **Self JOIN**.
+
+Since the manager is also an employee in the same `Employee` table, we use the table twice:
+
+- `e` → represents the employee
+- `m` → represents the manager
+
+We connect them using:
+
+```sql
+e.managerId = m.id
+```
+
+Then compare their salaries:
+
+```sql
+e.salary > m.salary
+```
+
+Finally, return the employee's name.
+
+## Solution
+
+```sql
+SELECT e.name AS Employee
+FROM Employee e
+JOIN Employee m
+ON e.managerId = m.id
+WHERE e.salary > m.salary;
+```
+
+## Complexity
+
+- **Time:** `O(n)`
+- **Space:** `O(n)`
+
+Where `n` is the number of employees.
+
+## Key Concept
+
+### Self JOIN
+
+A **Self JOIN** is used when we need to compare rows within the same table.
+
+Here:
+
+```text
+Employee e              Employee m
+-----------             -----------
+Employee                Manager
+e.managerId  ────────→  m.id
+```
+
+This allows us to compare an employee's salary with their manager's salary.
+
+### Important Takeaway
+
+When a table contains a relationship between its own rows, such as:
+
+```text
+employee → manager
+employee → supervisor
+employee → parent
+```
+
+a **Self JOIN** is often the natural solution.
+
+**Author**
+**Ramit Sarker**
