@@ -5,7 +5,6 @@ class Solution:
                 return 0
             if n == 1 :
                 return 1
-            ans = fun(n-1) + fun(n - 2)
+            ans = fun(n-1) + fun(n-2)
             return ans
         return fun(n)
-        
