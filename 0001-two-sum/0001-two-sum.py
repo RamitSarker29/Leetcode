@@ -7,7 +7,5 @@ class Solution:
                 return [i , hash_map[diff]]
             else :
                 hash_map[n] = i
-
-
-
+        
         
