@@ -1,7 +1,5 @@
 # 181. Employees Earning More Than Their Managers
 
-**Difficulty:** Easy
-
 ## Problem
 
 Write a solution to find the employees who earn more than their managers.
