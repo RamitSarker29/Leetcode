@@ -82,4 +82,5 @@ employee → parent
 a **Self JOIN** is often the natural solution.
 
 **Author**
+
 **Ramit Sarker**
