@@ -1,42 +1,89 @@
-<h2><a href="https://leetcode.com/problems/duplicate-emails">182. Duplicate Emails</a></h2><h3>Easy</h3><hr><p>Table: <code>Person</code></p>
+# 182. Duplicate Emails
 
-<pre>
-+-------------+---------+
-| Column Name | Type    |
-+-------------+---------+
-| id          | int     |
-| email       | varchar |
-+-------------+---------+
-id is the primary key (column with unique values) for this table.
-Each row of this table contains an email. The emails will not contain uppercase letters.
-</pre>
+## Problem
 
-<p>&nbsp;</p>
+Write a solution to report all the duplicate emails in the `Person` table.
 
-<p>Write a solution to report all the duplicate emails. Note that it&#39;s guaranteed that the email&nbsp;field is not NULL.</p>
+An email is considered a duplicate if it appears **more than once** in the table.
 
-<p>Return the result table in <strong>any order</strong>.</p>
+Return each duplicate email only once.
 
-<p>The&nbsp;result format is in the following example.</p>
+## Approach
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+This problem can be solved using **GROUP BY** and **HAVING**.
 
-<pre>
-<strong>Input:</strong> 
-Person table:
-+----+---------+
-| id | email   |
-+----+---------+
-| 1  | a@b.com |
-| 2  | c@d.com |
-| 3  | a@b.com |
-+----+---------+
-<strong>Output:</strong> 
-+---------+
-| Email   |
-+---------+
-| a@b.com |
-+---------+
-<strong>Explanation:</strong> a@b.com is repeated two times.
-</pre>
+We group all rows by `email`:
+
+```sql
+GROUP BY email
+```
+
+This puts identical emails into the same group.
+
+Then we use:
+
+```sql
+HAVING COUNT(email) > 1
+```
+
+to keep only the email groups that appear more than once.
+
+## Solution
+
+```sql
+SELECT email AS Email
+FROM Person
+GROUP BY email
+HAVING COUNT(email) > 1;
+```
+
+## Complexity
+
+- **Time:** `O(n)`
+- **Space:** `O(n)`
+
+Where `n` is the number of rows in the `Person` table.
+
+## Key Concept
+
+### GROUP BY + HAVING
+
+`GROUP BY` combines rows with the same value into groups.
+
+For example:
+
+```text
+a@b.com → 2 occurrences
+c@d.com → 1 occurrence
+```
+
+Then:
+
+```sql
+HAVING COUNT(email) > 1
+```
+
+keeps only:
+
+```text
+a@b.com → 2 > 1 ✅
+```
+
+### Important Takeaway
+
+When a problem asks you to find values that occur **more than once**, think:
+
+```text
+GROUP BY → group identical values
+COUNT()  → count occurrences
+HAVING   → filter the groups
+```
+
+Also remember:
+
+- `WHERE` filters **individual rows**
+- `HAVING` filters **groups**
+
+**Author**
+
+**Ramit Sarker**
