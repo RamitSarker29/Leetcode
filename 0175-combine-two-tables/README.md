@@ -1,69 +1,81 @@
-<h2><a href="https://leetcode.com/problems/combine-two-tables">175. Combine Two Tables</a></h2><h3>Easy</h3><hr><p>Table: <code>Person</code></p>
+# 175. Combine Two Tables
 
-<pre>
-+-------------+---------+
-| Column Name | Type    |
-+-------------+---------+
-| personId    | int     |
-| lastName    | varchar |
-| firstName   | varchar |
-+-------------+---------+
-personId is the primary key (column with unique values) for this table.
-This table contains information about the ID of some persons and their first and last names.
-</pre>
+## Problem
 
-<p>&nbsp;</p>
+Write a solution to report the first name, last name, city, and state of each person in the `Person` table.
 
-<p>Table: <code>Address</code></p>
+If the address of a person is not present in the `Address` table, return `NULL` for the city and state.
 
-<pre>
-+-------------+---------+
-| Column Name | Type    |
-+-------------+---------+
-| addressId   | int     |
-| personId    | int     |
-| city        | varchar |
-| state       | varchar |
-+-------------+---------+
-addressId is the primary key (column with unique values) for this table.
-Each row of this table contains information about the city and state of one person with ID = PersonId.
-</pre>
+## Approach
 
-<p>&nbsp;</p>
+This problem can be solved using a **LEFT JOIN**.
 
-<p>Write a solution to report the first name, last name, city, and state of each person in the <code>Person</code> table. If the address of a <code>personId</code> is not present in the <code>Address</code> table, report <code>null</code> instead.</p>
+Since we need information about **every person**, even if they don't have an address, `Person` should be the left table.
 
-<p>Return the result table in <strong>any order</strong>.</p>
+We connect the two tables using:
 
-<p>The result format is in the following example.</p>
+```sql
+p.personId = a.personId
+```
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+The `LEFT JOIN` ensures that all people from the `Person` table are included. If a matching address doesn't exist, the columns from `Address` automatically become `NULL`.
 
-<pre>
-<strong>Input:</strong> 
-Person table:
-+----------+----------+-----------+
-| personId | lastName | firstName |
-+----------+----------+-----------+
-| 1        | Wang     | Allen     |
-| 2        | Alice    | Bob       |
-+----------+----------+-----------+
-Address table:
-+-----------+----------+---------------+------------+
-| addressId | personId | city          | state      |
-+-----------+----------+---------------+------------+
-| 1         | 2        | New York City | New York   |
-| 2         | 3        | Leetcode      | California |
-+-----------+----------+---------------+------------+
-<strong>Output:</strong> 
-+-----------+----------+---------------+----------+
-| firstName | lastName | city          | state    |
-+-----------+----------+---------------+----------+
-| Allen     | Wang     | Null          | Null     |
-| Bob       | Alice    | New York City | New York |
-+-----------+----------+---------------+----------+
-<strong>Explanation:</strong> 
-There is no address in the address table for the personId = 1 so we return null in their city and state.
-addressId = 1 contains information about the address of personId = 2.
-</pre>
+## Solution
+
+```sql
+SELECT p.firstName, p.lastName, a.city, a.state
+FROM Person p
+LEFT JOIN Address a
+ON p.personId = a.personId;
+```
+
+## Complexity
+
+- **Time:** `O(n + m)`
+- **Space:** `O(n + m)`
+
+Where `n` is the number of rows in `Person` and `m` is the number of rows in `Address`.
+
+## Key Concept
+
+### LEFT JOIN
+
+A **LEFT JOIN** keeps all rows from the left table, even when there is no matching row in the right table.
+
+Here:
+
+```text
+Person p                Address a
+---------               ---------
+Person                  Address
+p.personId  ─────────→  a.personId
+```
+
+If a matching address exists, its `city` and `state` are returned.
+
+If there is no match:
+
+```text
+Person → Address
+Allen  → NULL
+```
+
+So `city` and `state` become `NULL`.
+
+### Important Takeaway
+
+When a problem asks you to:
+
+```text
+keep ALL rows from one table
++
+include matching information from another table
++
+return NULL when there is no match
+```
+
+a **LEFT JOIN** is often the natural solution.
+
+**Author**
+
+**Ramit Sarker**
