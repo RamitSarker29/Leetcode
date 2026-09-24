@@ -33,6 +33,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0209-minimum-size-subarray-sum](https://github.com/RamitSarker29/Leetcode/tree/master/0209-minimum-size-subarray-sum) |
 | [0215-kth-largest-element-in-an-array](https://github.com/RamitSarker29/Leetcode/tree/master/0215-kth-largest-element-in-an-array) |
 | [0238-product-of-array-except-self](https://github.com/RamitSarker29/Leetcode/tree/master/0238-product-of-array-except-self) |
+| [0268-missing-number](https://github.com/RamitSarker29/Leetcode/tree/master/0268-missing-number) |
 | [0283-move-zeroes](https://github.com/RamitSarker29/Leetcode/tree/master/0283-move-zeroes) |
 | [0287-find-the-duplicate-number](https://github.com/RamitSarker29/Leetcode/tree/master/0287-find-the-duplicate-number) |
 | [0347-top-k-frequent-elements](https://github.com/RamitSarker29/Leetcode/tree/master/0347-top-k-frequent-elements) |
@@ -122,6 +123,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0169-majority-element](https://github.com/RamitSarker29/Leetcode/tree/master/0169-majority-element) |
 | [0202-happy-number](https://github.com/RamitSarker29/Leetcode/tree/master/0202-happy-number) |
 | [0242-valid-anagram](https://github.com/RamitSarker29/Leetcode/tree/master/0242-valid-anagram) |
+| [0268-missing-number](https://github.com/RamitSarker29/Leetcode/tree/master/0268-missing-number) |
 | [0347-top-k-frequent-elements](https://github.com/RamitSarker29/Leetcode/tree/master/0347-top-k-frequent-elements) |
 | [0387-first-unique-character-in-a-string](https://github.com/RamitSarker29/Leetcode/tree/master/0387-first-unique-character-in-a-string) |
 | [0424-longest-repeating-character-replacement](https://github.com/RamitSarker29/Leetcode/tree/master/0424-longest-repeating-character-replacement) |
@@ -139,6 +141,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0066-plus-one](https://github.com/RamitSarker29/Leetcode/tree/master/0066-plus-one) |
 | [0070-climbing-stairs](https://github.com/RamitSarker29/Leetcode/tree/master/0070-climbing-stairs) |
 | [0202-happy-number](https://github.com/RamitSarker29/Leetcode/tree/master/0202-happy-number) |
+| [0268-missing-number](https://github.com/RamitSarker29/Leetcode/tree/master/0268-missing-number) |
 | [0412-fizz-buzz](https://github.com/RamitSarker29/Leetcode/tree/master/0412-fizz-buzz) |
 | [0509-fibonacci-number](https://github.com/RamitSarker29/Leetcode/tree/master/0509-fibonacci-number) |
 | [0877-stone-game](https://github.com/RamitSarker29/Leetcode/tree/master/0877-stone-game) |
@@ -174,6 +177,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0169-majority-element](https://github.com/RamitSarker29/Leetcode/tree/master/0169-majority-element) |
 | [0215-kth-largest-element-in-an-array](https://github.com/RamitSarker29/Leetcode/tree/master/0215-kth-largest-element-in-an-array) |
 | [0242-valid-anagram](https://github.com/RamitSarker29/Leetcode/tree/master/0242-valid-anagram) |
+| [0268-missing-number](https://github.com/RamitSarker29/Leetcode/tree/master/0268-missing-number) |
 | [0347-top-k-frequent-elements](https://github.com/RamitSarker29/Leetcode/tree/master/0347-top-k-frequent-elements) |
 | [0435-non-overlapping-intervals](https://github.com/RamitSarker29/Leetcode/tree/master/0435-non-overlapping-intervals) |
 | [0767-reorganize-string](https://github.com/RamitSarker29/Leetcode/tree/master/0767-reorganize-string) |
@@ -189,6 +193,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0162-find-peak-element](https://github.com/RamitSarker29/Leetcode/tree/master/0162-find-peak-element) |
 | [0167-two-sum-ii-input-array-is-sorted](https://github.com/RamitSarker29/Leetcode/tree/master/0167-two-sum-ii-input-array-is-sorted) |
 | [0209-minimum-size-subarray-sum](https://github.com/RamitSarker29/Leetcode/tree/master/0209-minimum-size-subarray-sum) |
+| [0268-missing-number](https://github.com/RamitSarker29/Leetcode/tree/master/0268-missing-number) |
 | [0287-find-the-duplicate-number](https://github.com/RamitSarker29/Leetcode/tree/master/0287-find-the-duplicate-number) |
 | [0704-binary-search](https://github.com/RamitSarker29/Leetcode/tree/master/0704-binary-search) |
 | [0852-peak-index-in-a-mountain-array](https://github.com/RamitSarker29/Leetcode/tree/master/0852-peak-index-in-a-mountain-array) |
@@ -234,6 +239,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 ## Bit Manipulation
 |  |
 | ------- |
+| [0268-missing-number](https://github.com/RamitSarker29/Leetcode/tree/master/0268-missing-number) |
 | [0287-find-the-duplicate-number](https://github.com/RamitSarker29/Leetcode/tree/master/0287-find-the-duplicate-number) |
 ## Divide and Conquer
 |  |
