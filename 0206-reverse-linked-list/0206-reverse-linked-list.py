@@ -13,6 +13,4 @@ class Solution:
             prev = current
             current = dest
         return prev
-
-
         
