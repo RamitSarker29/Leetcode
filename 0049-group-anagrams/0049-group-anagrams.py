@@ -1,7 +1,7 @@
 class Solution:
     def groupAnagrams(self, strs: list[str]) -> list[list[str]]:
         groups = {}
-        for i in range(len(strs)) :        
+        for i in range(len(strs)) :
             hash_map = [0] * 26
             for j in range(len(strs[i])) :
                 char = strs[i][j]
@@ -11,7 +11,3 @@ class Solution:
                 groups[key] = []
             groups[key].append(strs[i])
         return list(groups.values())
-        
-
-
-        
