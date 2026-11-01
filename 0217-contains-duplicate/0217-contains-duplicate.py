@@ -4,7 +4,6 @@ class Solution:
         for i in nums :
             if i in hash_map :
                 return True
-            else :
-                hash_map[i] = 1
+            hash_map[i] = 1
         return False
         
