@@ -1,20 +1,20 @@
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
-        i=0
-        j=0
-        max_len=0
-        max_freq=0
-        hash_map={}
-        for j in range(len(s)):
-            if s[j] in hash_map:
-                hash_map[s[j]]+=1
-            else:
-                hash_map[s[j]]=1
-            max_freq=max(max_freq,hash_map[s[j]])
-            while j-i+1-max_freq>k:
-                hash_map[s[i]]-=1
-                i+=1
-            max_len=max(max_len,j-i+1)
-        return max_len
+        hashMap = {}
+        maxLen = 0
+        i , j = 0 , 0
+        maxFreq = 0
+        for j in range(len(s)) :
+            if s[j] in hashMap :
+                hashMap[s[j]] += 1
+            else :
+                hashMap[s[j]] = 1
+            maxFreq = max(maxFreq , hashMap[s[j]])
+            while (j - i + 1) - maxFreq > k :
+                hashMap[s[i]] -= 1
+                i += 1
+            maxLen = max(j - i + 1 , maxLen)
+        return maxLen
+                
 
         
