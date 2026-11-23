@@ -23,6 +23,5 @@ class Solution:
                 return True
             i += 1
             j += 1
-        return False
-
+        return False 
         
