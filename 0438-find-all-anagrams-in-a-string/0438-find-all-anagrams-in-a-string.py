@@ -20,10 +20,10 @@ class Solution:
             sHashMap[index] -= 1
             index = ord(s[j]) - ord('a')
             sHashMap[index] += 1
-            if sHashMap == pHashMap :
-                res.append(i + 1)
             i += 1
             j += 1
+            if sHashMap == pHashMap :
+                res.append(i)
         return res
 
 
