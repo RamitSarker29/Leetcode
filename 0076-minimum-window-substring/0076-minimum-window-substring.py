@@ -1,10 +1,11 @@
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        res = ''
         tHashMap = {}
         sHashMap = {}
         have = 0
         required = len(set(t))
+        minLen = float('inf')
+        start = 0
         for i in range(len(t)) :
             if t[i] in tHashMap :
                 tHashMap[t[i]] += 1
@@ -17,12 +18,12 @@ class Solution:
                 have += 1
             j += 1
             while have == required :
-                window = s[i : j]
-                if res == '' or len(res) > len(window) :
-                    res = window
+                if j - i < minLen :
+                    minLen = j - i
+                    start = i
                 if s[i] in tHashMap and sHashMap[s[i]] == tHashMap[s[i]] :
                     have -= 1
                 sHashMap[s[i]] -= 1
                 i += 1 
-        return res
+        return '' if minLen == float('inf') else s[start : start + minLen]
         
