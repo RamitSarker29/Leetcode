@@ -18,7 +18,7 @@ class Solution:
             j += 1
             while have == required :
                 window = s[i : j]
-                if not res or len(res) > len(window) :
+                if res == '' or len(res) > len(window) :
                     res = window
                 if s[i] in tHashMap and sHashMap[s[i]] == tHashMap[s[i]] :
                     have -= 1
